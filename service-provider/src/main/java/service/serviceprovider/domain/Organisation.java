@@ -2,6 +2,7 @@ package service.serviceprovider.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 import service.sharedlib.domain.BaseEntity;
 
 import javax.persistence.Entity;
