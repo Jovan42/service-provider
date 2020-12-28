@@ -1,0 +1,21 @@
+package service.serviceprovider.services;
+
+import org.springframework.data.domain.Pageable;
+import service.serviceprovider.dto.ServiceProviderRequest;
+import service.serviceprovider.dto.ServiceProviderResponse;
+import service.sharedlib.dto.CustomPage;
+
+public interface ServiceProviderService {
+    ServiceProviderResponse create(Long organisationId, ServiceProviderRequest serviceProviderRequest);
+
+    CustomPage<ServiceProviderResponse> search(Pageable pageable);
+
+    ServiceProviderResponse getById(Long serviceProviderId);
+
+    ServiceProviderResponse update(Long organisationId,
+                                   Long serviceProviderId,
+                                   ServiceProviderRequest serviceProviderRequest);
+
+    CustomPage<ServiceProviderResponse> searchByOrganisation(Long organisationId, Pageable pageable);
+
+}

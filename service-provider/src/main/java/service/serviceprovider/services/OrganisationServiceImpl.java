@@ -1,7 +1,6 @@
 package service.serviceprovider.services;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import service.serviceprovider.domain.Organisation;
@@ -9,6 +8,7 @@ import service.serviceprovider.dto.OrganisationRequest;
 import service.serviceprovider.dto.OrganisationRequestNoPassword;
 import service.serviceprovider.dto.OrganisationResponse;
 import service.serviceprovider.repositories.OrganisationRepository;
+import service.serviceprovider.repositories.ServiceProviderRepository;
 import service.sharedlib.dto.CustomPage;
 import service.sharedlib.exceptions.NotFoundException;
 
@@ -20,11 +20,13 @@ import java.time.LocalDateTime;
 public class OrganisationServiceImpl implements OrganisationService {
     private final ModelMapper modelMapper;
     private final OrganisationRepository organisationRepository;
+    private final ServiceProviderRepository serviceProviderRepository;
 
-    @Autowired
-    public OrganisationServiceImpl(ModelMapper modelMapper, OrganisationRepository organisationRepository) {
+    public OrganisationServiceImpl(ModelMapper modelMapper, OrganisationRepository organisationRepository,
+                                   ServiceProviderRepository serviceProviderRepository) {
         this.modelMapper = modelMapper;
         this.organisationRepository = organisationRepository;
+        this.serviceProviderRepository = serviceProviderRepository;
     }
 
     @Override
@@ -54,6 +56,12 @@ public class OrganisationServiceImpl implements OrganisationService {
         organisation.setEmail(organisationRequest.getEmail());
         organisation.setDescription(organisationRequest.getDescription());
         organisation.setAddress(organisationRequest.getAddress());
-        return  modelMapper.map(organisationRepository.save(organisation), OrganisationResponse.class);
+        return modelMapper.map(organisationRepository.save(organisation), OrganisationResponse.class);
+    }
+
+    @Override
+    public void delete(Long organisationId) {
+        Organisation organisation = organisationRepository.findById(organisationId).orElseThrow(NotFoundException::new);
+        organisation.setDeleted(true);
     }
 }

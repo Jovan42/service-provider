@@ -15,4 +15,6 @@ public interface OrganisationService {
     OrganisationResponse getById(Long organisationId);
 
     OrganisationResponse update(Long organisationId, OrganisationRequestNoPassword organisationRequest);
+
+    void delete(Long organisationId);
 }
