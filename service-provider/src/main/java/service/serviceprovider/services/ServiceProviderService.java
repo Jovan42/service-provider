@@ -1,10 +1,12 @@
 package service.serviceprovider.services;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import service.serviceprovider.dto.ServiceProviderRequest;
 import service.serviceprovider.dto.ServiceProviderResponse;
 import service.sharedlib.dto.CustomPage;
 
+@Service
 public interface ServiceProviderService {
     ServiceProviderResponse create(Long organisationId, ServiceProviderRequest serviceProviderRequest);
 

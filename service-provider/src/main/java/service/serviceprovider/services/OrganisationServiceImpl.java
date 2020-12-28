@@ -1,6 +1,7 @@
 package service.serviceprovider.services;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import service.serviceprovider.domain.Organisation;
@@ -8,7 +9,6 @@ import service.serviceprovider.dto.OrganisationRequest;
 import service.serviceprovider.dto.OrganisationRequestNoPassword;
 import service.serviceprovider.dto.OrganisationResponse;
 import service.serviceprovider.repositories.OrganisationRepository;
-import service.serviceprovider.repositories.ServiceProviderRepository;
 import service.sharedlib.dto.CustomPage;
 import service.sharedlib.exceptions.NotFoundException;
 
@@ -21,6 +21,7 @@ public class OrganisationServiceImpl implements OrganisationService {
     private final ModelMapper modelMapper;
     private final OrganisationRepository organisationRepository;
 
+    @Autowired
     public OrganisationServiceImpl(ModelMapper modelMapper, OrganisationRepository organisationRepository) {
         this.modelMapper = modelMapper;
         this.organisationRepository = organisationRepository;

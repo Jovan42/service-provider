@@ -1,12 +1,12 @@
 package service.serviceprovider.services;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import service.serviceprovider.domain.MenuPart;
 import service.serviceprovider.dto.MenuPartRequest;
 import service.serviceprovider.dto.MenuPartResponse;
-import service.serviceprovider.dto.ServiceProviderResponse;
 import service.serviceprovider.repositories.MenuPartRepository;
 import service.serviceprovider.repositories.ServiceProviderRepository;
 import service.sharedlib.dto.CustomPage;
@@ -22,6 +22,7 @@ public class MenuPartServiceImpl implements MenuPartService {
     private final ServiceProviderRepository serviceProviderRepository;
     private final MenuPartRepository menuPartRepository;
 
+    @Autowired
     public MenuPartServiceImpl(ModelMapper modelMapper, ServiceProviderRepository serviceProviderRepository, MenuPartRepository menuPartRepository) {
         this.modelMapper = modelMapper;
         this.serviceProviderRepository = serviceProviderRepository;
