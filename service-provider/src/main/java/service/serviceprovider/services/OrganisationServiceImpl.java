@@ -20,13 +20,10 @@ import java.time.LocalDateTime;
 public class OrganisationServiceImpl implements OrganisationService {
     private final ModelMapper modelMapper;
     private final OrganisationRepository organisationRepository;
-    private final ServiceProviderRepository serviceProviderRepository;
 
-    public OrganisationServiceImpl(ModelMapper modelMapper, OrganisationRepository organisationRepository,
-                                   ServiceProviderRepository serviceProviderRepository) {
+    public OrganisationServiceImpl(ModelMapper modelMapper, OrganisationRepository organisationRepository) {
         this.modelMapper = modelMapper;
         this.organisationRepository = organisationRepository;
-        this.serviceProviderRepository = serviceProviderRepository;
     }
 
     @Override

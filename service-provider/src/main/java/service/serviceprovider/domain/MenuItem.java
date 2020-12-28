@@ -18,6 +18,6 @@ public class MenuItem extends BaseEntity {
     private Double price;
     @OneToMany(mappedBy = "menuItem")
     List<SpecificationPart> specificationParts;
-    @ManyToOne
+    @ManyToOne()
     private MenuPart menuPart;
 }
