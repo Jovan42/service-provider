@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import service.serviceprovider.dto.ServiceProviderRequest;
 import service.serviceprovider.dto.ServiceProviderResponse;
 import service.sharedlib.dto.CustomPage;
+import service.sharedlib.events.OrderCreatedEvent;
 
 @Service
 public interface ServiceProviderService {
@@ -20,4 +21,5 @@ public interface ServiceProviderService {
 
     CustomPage<ServiceProviderResponse> searchByOrganisation(Long organisationId, Pageable pageable);
 
+    Boolean validateOrder(OrderCreatedEvent orderCreatedEvent);
 }

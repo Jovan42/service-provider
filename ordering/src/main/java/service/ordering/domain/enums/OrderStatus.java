@@ -1,0 +1,13 @@
+package service.ordering.domain.enums;
+
+public enum OrderStatus {
+    CREATED,
+    PENDING_ORDER_VALIDATION,
+    PENDING_SERVICE_PROVIDER_VALIDATION,
+    PENDING_ACCOUNT_VALIDATION,
+    PENDING_PREPARATION,
+    IN_PREPARATION,
+    IN_DELIVERY,
+    DELIVERED,
+    CANCELED
+}
