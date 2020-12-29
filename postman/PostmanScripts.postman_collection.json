@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "ad38c647-0368-47cd-abf2-ce765520c219",
+		"name": "PostmanScripts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ServiceProviderService",
+			"item": [
+				{
+					"name": "Create Organisation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"My Organisation\",\r\n    \"email\" : \"myorganisation@gmail.com\",\r\n    \"password\": \"StrongPassword123\",\r\n    \"description\": \"First Organisation\",\r\n    \"address\": \"Novi Sad\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/organisations",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"organisations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ServiceProvider",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Top Prica\",\r\n    \"description\": \"Palacinkarnica\",\r\n    \"address\": \"Novi Sad\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/organisations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"organisations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Menu Part",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Slatke Palacinke\",\r\n    \"description\": \"Slatke Palacinke\",\r\n    \"menuItems\": [\r\n        {\r\n            \"name\": \"Cheesecake Palačinka\",\r\n            \"description\": \"Beli krem, plazma, višnja, pavlaka\",\r\n            \"price\": 200.00\r\n        },\r\n        {\r\n            \"name\": \"Palačinka Vanila\",\r\n            \"description\": \"Krem, plazma, puding vanila\",\r\n            \"price\": 180.00\r\n        },\r\n        {\r\n            \"name\": \"Kinder Palačinka\",\r\n            \"description\": \"Topljena kinder čokolada\",\r\n            \"price\": 250.00\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/serviceProviders/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"serviceProviders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
