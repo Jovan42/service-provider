@@ -17,6 +17,7 @@ import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderCreatedEvent;
 import service.sharedlib.events.OrderRequestDeclinedEvent;
 import service.sharedlib.events.pojo.OrderCreatedItem;
+import service.sharedlib.exceptions.InvalidOrderException;
 import service.sharedlib.exceptions.NotFoundException;
 import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
@@ -121,10 +122,9 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
         Optional<ServiceProvider> serviceProvider =
                 serviceProviderRepository.findById(orderCreatedEvent.getServiceProviderId());
         if (serviceProvider.isEmpty()) {
-            sentInvalidateEvent(
+            throw new InvalidOrderException(
                     orderCreatedEvent.getOrderId(),
                     OrderInvalidReason.NONEXISTENT_SERVICE_PROVIDER);
-            return false;
         }
 
         List<MenuItem> menuItems =
@@ -134,10 +134,9 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
                                 .map(OrderCreatedItem::getMenuItemId)
                                 .collect(Collectors.toList()));
         if (orderCreatedEvent.getOrderCreatedItems().size() != menuItems.size()) {
-            sentInvalidateEvent(
+            throw new InvalidOrderException(
                     orderCreatedEvent.getOrderId(),
                     OrderInvalidReason.MENU_ITEM_AND_SERVICE_PROVIDER_DOESNT_MATCH);
-            return false;
         }
 
         return true;

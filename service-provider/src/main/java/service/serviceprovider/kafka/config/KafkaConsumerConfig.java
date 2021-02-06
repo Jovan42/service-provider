@@ -9,23 +9,35 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.listener.SeekToCurrentErrorHandler;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import service.sharedlib.ErrorEnums;
 import service.sharedlib.events.BaseEvent;
-import service.sharedlib.events.OrderCreatedEvent;
+import service.sharedlib.events.OrderRequestDeclinedEvent;
+import service.sharedlib.exceptions.InvalidOrderException;
+import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
+import java.security.Provider;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
+
+    private final KafkaTemplate<String, BaseEvent> kafkaTemplate;
 
     @Value(value = "${kafka.bootstrapAddress}")
     private String bootstrapAddress;
 
     @Value(value = "${kafka.groupId}")
     private String groupId;
+
+    public KafkaConsumerConfig(KafkaTemplate<String, BaseEvent> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     @Bean
     public ConsumerFactory<String, BaseEvent> consumerFactory() {
@@ -44,6 +56,21 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, BaseEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+//        factory.setErrorHandler(
+//                (e, consumerRecord) -> {
+//                    if (e.getCause() instanceof InvalidOrderException) {
+//                        InvalidOrderException invalidOrderException = (InvalidOrderException) e.getCause();
+//                        kafkaTemplate.send(
+//                                "orderTopic",
+//                                "",
+//                                OrderRequestDeclinedEvent.builder()
+//                                        .orderId(invalidOrderException.getOrderId())
+//                                        .reason(
+//                                                invalidOrderException.getReason())
+//                                        .build());
+//                    }
+//                });
         return factory;
     }
+
 }
