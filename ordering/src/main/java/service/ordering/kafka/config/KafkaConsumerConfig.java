@@ -9,11 +9,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import service.sharedlib.events.BaseEvent;
-import service.sharedlib.events.OrderRequestDeclinedEvent;
-import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,13 +25,6 @@ public class KafkaConsumerConfig {
     @Value(value = "${kafka.groupId}")
     private String groupId;
 
-    private final KafkaTemplate<String, BaseEvent> kafkaTemplate;
-
-    public KafkaConsumerConfig(KafkaTemplate<String, BaseEvent> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
-
-
     @Bean
     public ConsumerFactory<String, BaseEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -48,13 +38,9 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, BaseEvent>
             kafkaListenerContainerFactory() {
-
         ConcurrentKafkaListenerContainerFactory<String, BaseEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setErrorHandler((e, consumerRecord) -> {
-            System.out.println(e);
-        });
         return factory;
     }
 }

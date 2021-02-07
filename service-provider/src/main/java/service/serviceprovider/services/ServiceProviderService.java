@@ -21,5 +21,5 @@ public interface ServiceProviderService {
 
     CustomPage<ServiceProviderResponse> searchByOrganisation(Long organisationId, Pageable pageable);
 
-    Boolean validateOrder(OrderCreatedEvent orderCreatedEvent);
+    void validateOrder(OrderCreatedEvent orderCreatedEvent);
 }

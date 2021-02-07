@@ -120,13 +120,13 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
     }
 
     @Override
-    public Boolean validateOrder(OrderCreatedEvent orderCreatedEvent) {
+    public void validateOrder(OrderCreatedEvent orderCreatedEvent) {
         Optional<ServiceProvider> serviceProvider =
                 serviceProviderRepository.findById(orderCreatedEvent.getServiceProviderId());
         if (serviceProvider.isEmpty()) {
             sentInvalidateEvent(orderCreatedEvent.getOrderId(),
                     OrderInvalidReason.NONEXISTENT_SERVICE_PROVIDER);
-            return false;
+            return;
         }
 
         List<MenuItem> menuItems =
@@ -138,7 +138,7 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
         if (orderCreatedEvent.getOrderItems().size() != menuItems.size()) {
             sentInvalidateEvent(orderCreatedEvent.getOrderId(),
                     OrderInvalidReason.MENU_ITEM_AND_SERVICE_PROVIDER_DOESNT_MATCH);
-            return false;
+            return;
         }
         kafkaTemplate.send(
                 "orderTopic",
@@ -149,21 +149,17 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
                                 serviceProvider.get().getManualApprovalRequired() : true)
                         .orderItems(getOrderItems(orderCreatedEvent.getOrderItems()))
                         .build());
-        return true;
     }
 
     private Map<Long, OrderItem> getOrderItems(List<OrderItem> orderItems) {
-        Map<Long, OrderItem> orderMap= new HashMap<>();
-        orderItems.stream()
-                .forEach(
-                        item -> {
-                            Optional<MenuItem> menuItem =
-                                    menuItemRepository.findById(item.getMenuItemId());
-                            menuItem.ifPresent(
-                                    value -> item.setCurrentPricePerUnit(value.getPrice()));
-                            orderMap.put(item.getMenuItemId(), item);
-                        });
-        return  orderMap;
+        Map<Long, OrderItem> orderMap = new HashMap<>();
+        orderItems.forEach(
+                item -> {
+                    Optional<MenuItem> menuItem = menuItemRepository.findById(item.getMenuItemId());
+                    menuItem.ifPresent(value -> item.setCurrentPricePerUnit(value.getPrice()));
+                    orderMap.put(item.getMenuItemId(), item);
+                });
+        return orderMap;
     }
 
     private void sentInvalidateEvent(Long orderId, OrderInvalidReason orderInvalidReason) {

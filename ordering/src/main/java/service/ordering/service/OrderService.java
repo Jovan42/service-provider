@@ -1,7 +1,6 @@
 package service.ordering.service;
 
 import org.springframework.stereotype.Service;
-import service.ordering.domain.Order;
 import service.ordering.dto.OrderRequest;
 import service.ordering.dto.OrderResponse;
 import service.sharedlib.events.pojo.OrderItem;
