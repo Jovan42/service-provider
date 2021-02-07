@@ -12,6 +12,7 @@ import java.util.Map;
 @Service
 public interface OrderService {
     OrderResponse create(OrderRequest orderRequest);
-    Order invalidateRequest(Long orderId, OrderInvalidReason reason);
-    Order orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems);
+    void invalidateRequest(Long orderId, OrderInvalidReason reason);
+    void orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems);
+    OrderResponse manuallyApprove(Long orderId);
 }

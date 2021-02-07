@@ -6,11 +6,12 @@ import org.springframework.stereotype.Controller;
 import service.ordering.controller.api.OrderRestApi;
 import service.ordering.dto.OrderRequest;
 import service.ordering.dto.OrderResponse;
+import service.ordering.service.OrderService;
 import service.ordering.service.OrderServiceImpl;
 
 @Controller
 public class OrderController implements OrderRestApi {
-    private final OrderServiceImpl orderService;
+    private final OrderService orderService;
 
     public OrderController(OrderServiceImpl orderService) {
         this.orderService = orderService;
@@ -19,5 +20,10 @@ public class OrderController implements OrderRestApi {
     @Override
     public ResponseEntity<OrderResponse> create(OrderRequest orderRequest) {
         return new ResponseEntity<>(orderService.create(orderRequest), HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<OrderResponse> manuallyApprove(Long orderId) {
+        return new ResponseEntity<>(orderService.manuallyApprove(orderId), HttpStatus.OK);
     }
 }

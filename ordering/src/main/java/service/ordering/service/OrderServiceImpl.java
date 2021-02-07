@@ -11,6 +11,7 @@ import service.ordering.repostiroy.OrderRepository;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderCreatedEvent;
 import service.sharedlib.events.pojo.OrderItem;
+import service.sharedlib.exceptions.BadRequestException;
 import service.sharedlib.exceptions.NotFoundException;
 import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
@@ -59,24 +60,44 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order invalidateRequest(Long orderId, OrderInvalidReason reason) {
+    public void invalidateRequest(Long orderId, OrderInvalidReason reason) {
          Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
          order.setStatus(OrderStatus.CANCELED);
          order.setCancelReason(reason.toString());
          order.setLastModified(LocalDateTime.now());
-         return orderRepository.save(order);
+         orderRepository.save(order);
     }
 
     @Override
-    public Order orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems) {
+    public void orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems) {
         Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
-        order.setStatus(manualApprovalRequired ?
-                OrderStatus.PENDING_MANUAL_SERVICE_PROVIDER_VALIDATION : OrderStatus.PENDING_ACCOUNT_VALIDATION);
+        order.setStatus(
+                manualApprovalRequired
+                        ? OrderStatus.PENDING_MANUAL_SERVICE_PROVIDER_VALIDATION
+                        : OrderStatus.PENDING_ACCOUNT_VALIDATION);
         order.setLastModified(LocalDateTime.now());
-        order.getBoughtItems().forEach(item -> {
-            item.setCurrentPricePerUnit(orderItems.get(item.getMenuItemId()).getCurrentPricePerUnit());
-        });
-        return orderRepository.save(order);
+        order.getBoughtItems()
+                .forEach(
+                        item ->
+                                item.setCurrentPricePerUnit(
+                                        orderItems
+                                                .get(item.getMenuItemId())
+                                                .getCurrentPricePerUnit()));
+        orderRepository.save(order);
     }
 
+    @Override
+    public OrderResponse manuallyApprove(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        if (order.getStatus() == OrderStatus.PENDING_MANUAL_SERVICE_PROVIDER_VALIDATION) {
+            order.setStatus(OrderStatus.PENDING_ACCOUNT_VALIDATION);
+            order.setLastModified(LocalDateTime.now());
+            return modelMapper.map(orderRepository.save(order), OrderResponse.class);
+        } else {
+            throw new BadRequestException(
+                    String.format(
+                            "Order [%d] is not in correct status and can not be manually approved",
+                            orderId));
+        }
+    }
 }
