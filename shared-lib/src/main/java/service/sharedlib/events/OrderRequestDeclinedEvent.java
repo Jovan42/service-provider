@@ -8,7 +8,7 @@ import service.sharedlib.exceptions.enums.OrderInvalidReason;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderRequestDeclinedEvent extends BaseEvent{
+public class OrderRequestDeclinedEvent extends BaseEvent {
     private Long orderId;
     private OrderInvalidReason reason;
 }

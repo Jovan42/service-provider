@@ -7,7 +7,9 @@ CREATE TABLE orders (
     `deleted` bit,
     `test` int,
     `status` int,
-    `cancel_reason` varchar(255)
+    `cancel_reason` varchar(255),
+    `user_id` bigint,
+    `account_id` bigint
 );
 
 CREATE TABLE bought_item (
