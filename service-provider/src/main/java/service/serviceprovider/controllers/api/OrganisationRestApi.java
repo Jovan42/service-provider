@@ -16,8 +16,8 @@ public interface OrganisationRestApi {
 
     @GetMapping
     @ApiOperation(value = "Search Organisations")
-    ResponseEntity<CustomPage<OrganisationResponse>> search(@RequestParam Integer pageNumber,
-                                                            @RequestParam Integer pageSize);
+    ResponseEntity<CustomPage<OrganisationResponse>> search(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                                            @RequestParam(defaultValue = "10") Integer pageSize);
 
     @GetMapping("/{organisationId}")
     @ApiOperation(value = "Get Organisation by ID")

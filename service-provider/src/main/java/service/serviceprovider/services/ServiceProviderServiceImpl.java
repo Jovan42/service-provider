@@ -88,7 +88,6 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
 
     @Override
     public ServiceProviderResponse update(
-            Long organisationId,
             Long serviceProviderId,
             ServiceProviderRequest serviceProviderRequest) {
         ServiceProvider serviceProvider =
@@ -99,10 +98,6 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
         serviceProvider.setName(serviceProviderRequest.getName());
         serviceProvider.setDescription(serviceProviderRequest.getDescription());
         serviceProvider.setAddress(serviceProviderRequest.getAddress());
-        serviceProvider.setOrganisation(
-                organisationRepository
-                        .findById(organisationId)
-                        .orElseThrow(NotFoundException::new));
         return modelMapper.map(
                 serviceProviderRepository.save(serviceProvider), ServiceProviderResponse.class);
     }

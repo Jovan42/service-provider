@@ -15,8 +15,7 @@ public interface ServiceProviderService {
 
     ServiceProviderResponse getById(Long serviceProviderId);
 
-    ServiceProviderResponse update(Long organisationId,
-                                   Long serviceProviderId,
+    ServiceProviderResponse update(Long serviceProviderId,
                                    ServiceProviderRequest serviceProviderRequest);
 
     CustomPage<ServiceProviderResponse> searchByOrganisation(Long organisationId, Pageable pageable);

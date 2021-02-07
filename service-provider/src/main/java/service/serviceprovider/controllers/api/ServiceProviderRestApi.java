@@ -15,8 +15,8 @@ public interface ServiceProviderRestApi {
 
     @GetMapping("/serviceProviders")
     @ApiOperation(value = "Search ServiceProvider")
-    ResponseEntity<CustomPage<ServiceProviderResponse>> search(@RequestParam Integer pageNumber,
-                                                               @RequestParam Integer pageSize);
+    ResponseEntity<CustomPage<ServiceProviderResponse>> search(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                                               @RequestParam(defaultValue = "10") Integer pageSize);
 
     @GetMapping("/serviceProviders/{serviceProviderId}")
     @ApiOperation(value = "Get ServiceProvider by ID")
@@ -28,14 +28,13 @@ public interface ServiceProviderRestApi {
                                                                                @RequestParam Integer pageNumber,
                                                                                @RequestParam Integer pageSize);
 
-    @PostMapping("/organisations/{organisationId}")
+    @PostMapping("/organisations/{organisationId}/serviceProviders")
     @ApiOperation(value = "Create ServiceProvider under Organisation")
     ResponseEntity<ServiceProviderResponse> create(@PathVariable Long organisationId,
                                                    @Validated @RequestBody ServiceProviderRequest serviceProviderRequest);
 
-    @PutMapping("/organisations/{organisationId}/serviceProviders/{serviceProviderId}")
+    @PutMapping("/serviceProviders/{serviceProviderId}")
     @ApiOperation(value = "Update ServiceProvider")
-    ResponseEntity<ServiceProviderResponse> update(@PathVariable Long organisationId,
-                                                   @PathVariable Long serviceProviderId,
+    ResponseEntity<ServiceProviderResponse> update(@PathVariable Long serviceProviderId,
                                                    @Validated @RequestBody ServiceProviderRequest serviceProviderRequest);
 }

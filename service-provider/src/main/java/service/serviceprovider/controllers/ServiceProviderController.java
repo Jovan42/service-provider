@@ -46,9 +46,8 @@ public class ServiceProviderController implements ServiceProviderRestApi {
     }
 
     @Override
-    public ResponseEntity<ServiceProviderResponse> update(Long organisationId,
-                                                          Long serviceProviderId,
+    public ResponseEntity<ServiceProviderResponse> update(Long serviceProviderId,
                                                           ServiceProviderRequest serviceProviderRequest) {
-        return new ResponseEntity<>(serviceProviderService.update(organisationId, serviceProviderId, serviceProviderRequest), HttpStatus.OK);
+        return new ResponseEntity<>(serviceProviderService.update(serviceProviderId, serviceProviderRequest), HttpStatus.OK);
     }
 }
