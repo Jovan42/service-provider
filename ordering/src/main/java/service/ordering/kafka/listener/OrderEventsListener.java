@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import service.ordering.service.OrderService;
 import service.sharedlib.events.BaseEvent;
-import service.sharedlib.events.OrderCreatedEvent;
+import service.sharedlib.events.OrderItemsApprovedEvent;
 import service.sharedlib.events.OrderRequestDeclinedEvent;
 
 @Component
@@ -20,7 +20,14 @@ public class OrderEventsListener {
 
     @KafkaHandler()
     public void listenOrderCreatedEvent(@Payload OrderRequestDeclinedEvent orderRequestDeclinedEvent) {
-        orderService.invalidateRequest(orderRequestDeclinedEvent.getOrderId());
+        orderService.invalidateRequest(orderRequestDeclinedEvent.getOrderId(), orderRequestDeclinedEvent.getReason());
+    }
+
+    @KafkaHandler()
+    public void listenOrderCreatedEvent(@Payload OrderItemsApprovedEvent orderItemsApprovedEvent) {
+        orderService.orderItemsApproved(orderItemsApprovedEvent.getOrderId(),
+                orderItemsApprovedEvent.getManualApprovalRequired(),
+                orderItemsApprovedEvent.getOrderItems());
     }
 
     @KafkaHandler(isDefault = true)

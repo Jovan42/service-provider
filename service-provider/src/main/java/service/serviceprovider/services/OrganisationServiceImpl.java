@@ -10,9 +10,7 @@ import service.serviceprovider.dto.OrganisationRequestNoPassword;
 import service.serviceprovider.dto.OrganisationResponse;
 import service.serviceprovider.repositories.OrganisationRepository;
 import service.sharedlib.dto.CustomPage;
-import service.sharedlib.exceptions.InvalidOrderException;
 import service.sharedlib.exceptions.NotFoundException;
-import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;

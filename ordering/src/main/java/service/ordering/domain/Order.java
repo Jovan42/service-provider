@@ -15,6 +15,7 @@ import java.util.List;
 public class Order extends BaseEntity {
     private Long serviceProviderId;
     private OrderStatus status;
+    private String cancelReason;
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BoughtItem> boughtItems;
 }

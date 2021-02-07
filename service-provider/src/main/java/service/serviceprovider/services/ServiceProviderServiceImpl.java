@@ -15,15 +15,17 @@ import service.serviceprovider.repositories.ServiceProviderRepository;
 import service.sharedlib.dto.CustomPage;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderCreatedEvent;
+import service.sharedlib.events.OrderItemsApprovedEvent;
 import service.sharedlib.events.OrderRequestDeclinedEvent;
-import service.sharedlib.events.pojo.OrderCreatedItem;
-import service.sharedlib.exceptions.InvalidOrderException;
+import service.sharedlib.events.pojo.OrderItem;
 import service.sharedlib.exceptions.NotFoundException;
 import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -122,24 +124,46 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
         Optional<ServiceProvider> serviceProvider =
                 serviceProviderRepository.findById(orderCreatedEvent.getServiceProviderId());
         if (serviceProvider.isEmpty()) {
-            throw new InvalidOrderException(
-                    orderCreatedEvent.getOrderId(),
+            sentInvalidateEvent(orderCreatedEvent.getOrderId(),
                     OrderInvalidReason.NONEXISTENT_SERVICE_PROVIDER);
+            return false;
         }
 
         List<MenuItem> menuItems =
                 menuItemRepository.check(
                         orderCreatedEvent.getServiceProviderId(),
-                        orderCreatedEvent.getOrderCreatedItems().stream()
-                                .map(OrderCreatedItem::getMenuItemId)
+                        orderCreatedEvent.getOrderItems().stream()
+                                .map(OrderItem::getMenuItemId)
                                 .collect(Collectors.toList()));
-        if (orderCreatedEvent.getOrderCreatedItems().size() != menuItems.size()) {
-            throw new InvalidOrderException(
-                    orderCreatedEvent.getOrderId(),
+        if (orderCreatedEvent.getOrderItems().size() != menuItems.size()) {
+            sentInvalidateEvent(orderCreatedEvent.getOrderId(),
                     OrderInvalidReason.MENU_ITEM_AND_SERVICE_PROVIDER_DOESNT_MATCH);
+            return false;
         }
-
+        kafkaTemplate.send(
+                "orderTopic",
+                "",
+                OrderItemsApprovedEvent.builder()
+                        .orderId(orderCreatedEvent.getOrderId())
+                        .manualApprovalRequired(serviceProvider.get().getManualApprovalRequired() != null ?
+                                serviceProvider.get().getManualApprovalRequired() : true)
+                        .orderItems(getOrderItems(orderCreatedEvent.getOrderItems()))
+                        .build());
         return true;
+    }
+
+    private Map<Long, OrderItem> getOrderItems(List<OrderItem> orderItems) {
+        Map<Long, OrderItem> orderMap= new HashMap<>();
+        orderItems.stream()
+                .forEach(
+                        item -> {
+                            Optional<MenuItem> menuItem =
+                                    menuItemRepository.findById(item.getMenuItemId());
+                            menuItem.ifPresent(
+                                    value -> item.setCurrentPricePerUnit(value.getPrice()));
+                            orderMap.put(item.getMenuItemId(), item);
+                        });
+        return  orderMap;
     }
 
     private void sentInvalidateEvent(Long orderId, OrderInvalidReason orderInvalidReason) {

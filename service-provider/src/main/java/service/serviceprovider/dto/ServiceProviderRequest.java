@@ -14,4 +14,6 @@ public class ServiceProviderRequest {
     @NotBlank
     private String address;
     private String description;
+    private Boolean manualApprovalRequired;
+
 }

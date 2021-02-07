@@ -8,7 +8,7 @@ CREATE TABLE organisation (
    `description` varchar(255),
    `email` varchar(255),
    `name` varchar(255),
-   `password` bigint
+   `password` varchar(255)
 );
 
 CREATE TABLE service_provider (
@@ -20,6 +20,7 @@ CREATE TABLE service_provider (
   `description` varchar(255),
   `name` varchar(255),
   `organisation_id` bigint,
+  `manualApprovalRequired` bit,
   FOREIGN KEY (organisation_id) REFERENCES organisation(id)
 );
 

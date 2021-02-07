@@ -10,4 +10,5 @@ public class ServiceProviderResponse {
     private String name;
     private String address;
     private String description;
+    private Boolean manualApprovalRequired;
 }

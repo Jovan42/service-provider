@@ -3,15 +3,15 @@ package service.sharedlib.events;
 import lombok.*;
 import service.sharedlib.events.pojo.OrderItem;
 
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderCreatedEvent extends BaseEvent {
+public class OrderItemsApprovedEvent extends BaseEvent{
     private Long orderId;
-    private Long serviceProviderId;
-    private List<OrderItem> orderItems;
+    private Boolean manualApprovalRequired;
+    private Map<Long, OrderItem> orderItems;
 }

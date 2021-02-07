@@ -6,7 +6,8 @@ CREATE TABLE orders (
     `service_provider_id` bigint,
     `deleted` bit,
     `test` int,
-    `status` int
+    `status` int,
+    `cancel_reason` varchar(255)
 );
 
 CREATE TABLE bought_item (

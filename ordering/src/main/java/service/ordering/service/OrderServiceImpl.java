@@ -10,12 +10,13 @@ import service.ordering.dto.OrderResponse;
 import service.ordering.repostiroy.OrderRepository;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderCreatedEvent;
-import service.sharedlib.events.pojo.OrderCreatedItem;
+import service.sharedlib.events.pojo.OrderItem;
 import service.sharedlib.exceptions.NotFoundException;
+import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,17 +40,18 @@ public class OrderServiceImpl implements OrderService {
         Order order = modelMapper.map(orderRequest, Order.class);
         order.getBoughtItems().forEach(boughtItem -> boughtItem.setOrder(order));
         order.setCreatedTime(LocalDateTime.now());
+        order.setStatus(OrderStatus.PENDING_SERVICE_PROVIDER_VALIDATION);
         Order savedOrder = orderRepository.save(order);
         OrderCreatedEvent orderCreatedEvent =
                 OrderCreatedEvent.builder()
                         .orderId(order.getId())
                         .serviceProviderId(order.getServiceProviderId())
-                        .orderCreatedItems(
+                        .orderItems(
                                 order.getBoughtItems().stream()
                                         .map(
                                                 boughtItem ->
                                                         modelMapper.map(
-                                                                boughtItem, OrderCreatedItem.class))
+                                                                boughtItem, OrderItem.class))
                                         .collect(Collectors.toList()))
                         .build();
         kafkaTemplate.send("orderTopic", "", orderCreatedEvent);
@@ -57,11 +59,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order invalidateRequest(Long orderId) {
+    public Order invalidateRequest(Long orderId, OrderInvalidReason reason) {
          Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
          order.setStatus(OrderStatus.CANCELED);
+         order.setCancelReason(reason.toString());
          order.setLastModified(LocalDateTime.now());
          return orderRepository.save(order);
+    }
+
+    @Override
+    public Order orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        order.setStatus(manualApprovalRequired ?
+                OrderStatus.PENDING_MANUAL_SERVICE_PROVIDER_VALIDATION : OrderStatus.PENDING_ACCOUNT_VALIDATION);
+        order.setLastModified(LocalDateTime.now());
+        order.getBoughtItems().forEach(item -> {
+            item.setCurrentPricePerUnit(orderItems.get(item.getMenuItemId()).getCurrentPricePerUnit());
+        });
+        return orderRepository.save(order);
     }
 
 }

@@ -20,4 +20,5 @@ public class ServiceProvider extends BaseEntity {
     List<MenuPart> menuParts;
     @ManyToOne
     private Organisation organisation;
+    private Boolean manualApprovalRequired;
 }
