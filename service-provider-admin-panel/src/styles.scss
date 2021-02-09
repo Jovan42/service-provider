@@ -30,9 +30,9 @@ $custom-warm: (
 $my-app-primary: mat-palette($custom);
 $my-app-accent: mat-palette($custom-accent);
 $my-app-warm: mat-palette($custom-warm);
-$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warm);
+$my-app-theme: mat-dark-theme($my-app-primary, $my-app-accent, $my-app-warm);
 
-$custom-background-color: #eeeeee;
+$custom-background-color: #353941;
 $background: map-get($my-app-theme, background);
 $background: map_merge($background, (background: $custom-background-color));
 $my-app-theme: map_merge($my-app-theme, (background: $background));
@@ -43,7 +43,7 @@ body {
   padding: 0;
   min-width: 100%;
   min-height: 100%;
-  background-color: #90b8f8;
+  background-color: $custom-background-color;
 }
 
 html {
