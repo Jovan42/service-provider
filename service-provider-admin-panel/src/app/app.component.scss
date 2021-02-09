@@ -20,3 +20,71 @@ mat-toolbar {
 mat-icon {
   margin-right: 1em;
 }
+
+form {
+  margin: 1em;
+}
+
+::ng-deep .mat-form-field {
+  .mat-input-element {
+    color: colors.$custom-secondary;
+  }
+  .mat-form-field-label {
+    color: colors.$custom-secondary;
+  }
+  .mat-form-field-underline {
+    background-color: colors.$custom-secondary;
+  }
+  .mat-form-field-ripple {
+    background-color: colors.$custom-secondary;
+  }
+  .mat-form-field-required-marker {
+    color: colors.$custom-secondary;
+  }
+  .mat-select-arrow {
+    color: colors.$custom-secondary;
+  }
+  .mat-select-value {
+    color: colors.$custom-secondary;
+  }
+}
+
+::ng-deep .mat-option {
+  background-color:  colors.$custom-secondary;
+  color: colors.$custom-primary !important;
+}
+
+.mat-option.mat-active {
+  background-color:  colors.$custom-light;
+  color: colors.$custom-primary !important;
+}
+
+mat-option:hover {
+  background-color:  colors.$custom-light !important;
+  color: colors.$custom-primary !important;
+}
+
+::ng-deep .mat-form-field.mat-focused {
+  .mat-form-field-label {
+    color: colors.$custom-light;
+  }
+  .mat-form-field-ripple {
+    background-color:  colors.$custom-light;
+  }
+  .mat-form-field-required-marker {
+    color:  colors.$custom-light;
+  }
+  .mat-input-element {
+    color:  colors.$custom-light;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  margin: 16px 8px;
+}
+
+

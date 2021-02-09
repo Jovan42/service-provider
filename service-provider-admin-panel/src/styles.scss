@@ -1,9 +1,11 @@
 @import '~@angular/material/theming';
 @include mat-core();
 
-$custom-primary: #222831;
-$custom-secondary: #ffd369;
-$custom-warm: #393e46;
+$custom-primary: #26282b;
+$custom-secondary: #5f85db;
+$custom-warm: #353941;
+$custom-light: #90b8f8;
+
 $custom: (
   500: $custom-primary,
   contrast: (
@@ -19,9 +21,9 @@ $custom-accent: (
 );
 
 $custom-warm: (
-  500: $custom-warm,
+  500: $custom-light,
   contrast: (
-    500: $custom-secondary,
+    500: $custom-warm,
   )
 );
 
@@ -41,6 +43,7 @@ body {
   padding: 0;
   min-width: 100%;
   min-height: 100%;
+  background-color: #90b8f8;
 }
 
 html {
