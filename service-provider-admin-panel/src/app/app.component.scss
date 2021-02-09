@@ -1,0 +1,22 @@
+@use 'src/styles' as colors;
+
+mat-sidenav {
+  background-color: colors.$custom-secondary !important;
+}
+
+mat-sidenav-container {
+  position: fixed;
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  min-width: 100%;
+}
+
+mat-toolbar {
+  width: 100%;
+  min-width: 100%;
+}
+
+mat-icon {
+  margin-right: 1em;
+}

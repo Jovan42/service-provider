@@ -1,5 +1,38 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-icon-button>
+      <mat-icon (click)="toggle()">menu</mat-icon>
+    </button>
+    <span class="menu-spacer"></span>
+    <div>
+      <button mat-raised-button color="accent"
+              matBadge="8" matBadgePosition="after" matBadgeColor="warn">
+        Pending Orders
+      </button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
 <mat-sidenav-container>
-  <mat-sidenav>Start</mat-sidenav>
-  <mat-sidenav position="end">End</mat-sidenav>
-  <section>Main</section>
+  <mat-sidenav #sidenav style="width: 20em;">
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'/organisations'">
+        <mat-icon color="primary" aria-hidden="false">business</mat-icon>
+        My Organisations
+      </a>
+      <a mat-list-item [routerLink]="'/organisations'">
+        <mat-icon color="primary" aria-hidden="false">person</mat-icon>
+        My Profile
+      </a>
+      <a mat-list-item [routerLink]="'/organisations'">
+        <mat-icon color="primary" aria-hidden="false">insights</mat-icon>
+        Statistics
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="height: 100%;">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
