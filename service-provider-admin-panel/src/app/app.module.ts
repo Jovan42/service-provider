@@ -7,6 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions} from '@angular/material/core';
 import {MaterialModule} from './material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { OrganisationComponent } from './organisation/organisation.component';
+import { RouterModule } from '@angular/router';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -18,7 +20,8 @@ const globalRippleConfig: RippleGlobalOptions = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    OrganisationComponent
   ],
   imports: [
     BrowserModule,

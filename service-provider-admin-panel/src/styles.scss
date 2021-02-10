@@ -3,7 +3,7 @@
 
 $custom-primary: #26282b;
 $custom-secondary: #5f85db;
-$custom-warm: #353941;
+$custom-warm-c: #353941;
 $custom-light: #90b8f8;
 
 $custom: (
@@ -23,7 +23,7 @@ $custom-accent: (
 $custom-warm: (
   500: $custom-light,
   contrast: (
-    500: $custom-warm,
+    500: $custom-warm-c,
   )
 );
 
