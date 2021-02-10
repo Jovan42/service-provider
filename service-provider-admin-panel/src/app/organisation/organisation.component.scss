@@ -1,0 +1,29 @@
+@use 'src/styles' as colors;
+
+.container {
+  margin: 1em;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-cell {
+  background: colors.$custom-secondary;
+  color: white;
+}
+
+.mat-row:hover .mat-cell{
+  background: colors.$custom-warm-c;
+  cursor: pointer;
+}
+
+.mat-header-cell {
+  background: colors.$custom-primary;
+  color: colors.$custom-light;
+}
+
+button:hover {
+  background: colors.$custom-light !important;
+}
+
