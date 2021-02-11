@@ -1,0 +1,34 @@
+<mat-dialog-content>
+  <div fxLayout="row wrap" fxFlex="100" fxLayout.xs="column warp" fxLayoutAlign="space-between start">
+
+    <div class="bottom-margin" fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="accent" (click)="closeDialogAndSave()">
+        <mat-icon color="primary" aria-hidden="false">save</mat-icon>
+        Save Specification
+      </button>
+      <button class="add" mat-raised-button color="accent" (click)="addGroup()">
+        <mat-icon color="primary" aria-hidden="false">add</mat-icon>
+      </button>
+    </div>
+    <mat-expansion-panel fxFlex="100" hideToggle *ngFor="let menuPart of groups">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Roštilj
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <form fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+        <mat-form-field fxFlex="30" appearance="fill">
+          <mat-label>Name of the group</mat-label>
+          <input matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="30" appearance="fill">
+          <mat-label>Description</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </form>
+      <button class="add" mat-raised-button color="accent">
+        <mat-icon color="primary" aria-hidden="false">add</mat-icon>
+      </button>
+    </mat-expansion-panel>
+  </div>
+</mat-dialog-content>

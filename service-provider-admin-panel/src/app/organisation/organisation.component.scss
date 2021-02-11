@@ -11,9 +11,10 @@ table {
 .mat-cell {
   background: colors.$custom-secondary;
   color: white;
+  border-color: #26282b !important;
 }
 
-.mat-row:hover .mat-cell{
+.mat-row:hover .mat-cell {
   background: colors.$custom-warm-c;
   cursor: pointer;
 }
@@ -27,3 +28,19 @@ button:hover {
   background: colors.$custom-light !important;
 }
 
+.mat-expansion-panel {
+  margin-bottom: 1em !important;
+}
+
+.mat-dialog-container {
+  background: colors.$custom-light !important;
+}
+
+.delete {
+  background: colors.$delete !important;
+}
+
+.add {
+  background: colors.$add !important;
+  margin-left: 1em;
+}

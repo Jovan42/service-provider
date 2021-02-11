@@ -1,0 +1,28 @@
+<h1>Specification</h1>
+<mat-dialog-content>
+  <div fxLayout="row wrap" fxFlex="100" fxLayout.xs="column warp" fxLayoutAlign="space-between start">
+    <div class="bottom-margin" fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="accent" (click)="closeDialogAndSave()">
+        <mat-icon color="primary" aria-hidden="false">save</mat-icon>
+        Save Specification
+      </button>
+      <button class="add" mat-raised-button color="accent" (click)="addSpecification()">
+        <mat-icon color="primary" aria-hidden="false">add</mat-icon>
+      </button>
+    </div>
+    <form fxLayout="row wrap" fxFlex="100" fxLayout.xs="column warp" fxLayoutAlign="space-between start"
+          *ngFor="let specification of specifications">
+      <mat-form-field fxFlex="40" appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput value="{{specification.name}}">
+      </mat-form-field>
+      <mat-form-field fxFlex="50" appearance="fill">
+        <mat-label>Value</mat-label>
+        <input matInput  value="{{specification.value}}">
+      </mat-form-field>
+      <button (click)="removeSpecification(specification)" class="delete" mat-raised-button color="accent">
+        <mat-icon color="primary" aria-hidden="false">delete</mat-icon>
+      </button>
+    </form>
+  </div>
+</mat-dialog-content>

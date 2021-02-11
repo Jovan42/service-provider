@@ -29,38 +29,44 @@ form {
   .mat-input-element {
     color: colors.$custom-secondary;
   }
+
   .mat-form-field-label {
     color: colors.$custom-secondary;
   }
+
   .mat-form-field-underline {
     background-color: colors.$custom-secondary;
   }
+
   .mat-form-field-ripple {
     background-color: colors.$custom-secondary;
   }
+
   .mat-form-field-required-marker {
     color: colors.$custom-secondary;
   }
+
   .mat-select-arrow {
     color: colors.$custom-secondary;
   }
+
   .mat-select-value {
     color: colors.$custom-secondary;
   }
 }
 
 ::ng-deep .mat-option {
-  background-color:  colors.$custom-secondary;
+  background-color: colors.$custom-secondary;
   color: colors.$custom-primary !important;
 }
 
 .mat-option.mat-active {
-  background-color:  colors.$custom-light;
+  background-color: colors.$custom-light;
   color: colors.$custom-primary !important;
 }
 
 mat-option:hover {
-  background-color:  colors.$custom-light !important;
+  background-color: colors.$custom-light !important;
   color: colors.$custom-primary !important;
 }
 
@@ -68,14 +74,17 @@ mat-option:hover {
   .mat-form-field-label {
     color: colors.$custom-light;
   }
+
   .mat-form-field-ripple {
-    background-color:  colors.$custom-light;
+    background-color: colors.$custom-light;
   }
+
   .mat-form-field-required-marker {
-    color:  colors.$custom-light;
+    color: colors.$custom-light;
   }
+
   .mat-input-element {
-    color:  colors.$custom-light;
+    color: colors.$custom-light;
   }
 }
 
@@ -86,10 +95,6 @@ table {
 button {
   margin: 16px 8px;
 }
-
-
-
-
 
 .example-card {
   margin: 1em;
@@ -103,5 +108,15 @@ button {
 router-outlet {
 }
 
+.mat-dialog-container {
+  background: colors.$custom-light !important;
+}
 
+.delete {
+  background: colors.$delete !important;
+}
 
+.add {
+  background: colors.$add !important;
+  margin-left: 1em;
+}

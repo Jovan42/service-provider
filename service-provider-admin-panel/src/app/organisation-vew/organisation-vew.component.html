@@ -1,0 +1,53 @@
+<h1>Menu Item</h1>
+<mat-dialog-content fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+  <form fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+    <mat-form-field fxFlex="45" appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput>
+    </mat-form-field>
+    <mat-form-field fxFlex="45" appearance="fill">
+      <mat-label>Price</mat-label>
+      <input type="number" matInput>
+    </mat-form-field>
+    <mat-form-field fxFlex="90" appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+
+    <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
+      <mat-checkbox [(ngModel)]="organisation.showSpecification" name="showSpecification">Show specification
+      </mat-checkbox>
+    </div>
+    <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
+      <mat-checkbox [(ngModel)]="organisation.showAdditionalOptions" name="showAdditionalOptions">Show additional
+        options
+      </mat-checkbox>
+    </div>
+  </form>
+  <div fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+    <div fxFlex="30">
+      <button fxFlex="100" type="button" mat-raised-button color="accent"
+              (click)="openSpecifications()" *ngIf="organisation.showSpecification">
+        View Specifications
+      </button>
+    </div>
+    <div fxFlex="30">
+      <button fxFlex="100" type="button" mat-raised-button color="accent"
+              (click)="openAdditionalOptions()" *ngIf="organisation.showAdditionalOptions">
+        View Additional Options
+      </button>
+    </div>
+  </div>
+  <div fxFlex="100" style="margin-top: 2em" fxLayout="row" fxLayoutAlign="end center">
+    <button style="margin-right: 1em" class="delete" *ngIf="organisation.showSpecification" mat-raised-button
+            color="accent">
+      <mat-icon color="primary" aria-hidden="false">delete</mat-icon>
+      Delete
+    </button>
+    <button mat-raised-button color="accent" *ngIf="organisation.showSpecification" (click)="save()">
+      <mat-icon color="primary" aria-hidden="false">save</mat-icon>
+      Save
+    </button>
+  </div>
+</mat-dialog-content>
+

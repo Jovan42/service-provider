@@ -9,6 +9,11 @@ import {MaterialModule} from './material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { OrganisationComponent } from './organisation/organisation.component';
 import { RouterModule } from '@angular/router';
+import {MatDialogModule} from '@angular/material/dialog';
+import { OrganisationVewComponent } from './organisation-vew/organisation-vew.component';
+import { SpecificationViewComponent } from './specification-view/specification-view.component';
+import { AdditionalOptionsViewComponent } from './additional-options-view/additional-options-view.component';
+import {FormsModule} from '@angular/forms';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -21,14 +26,19 @@ const globalRippleConfig: RippleGlobalOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    OrganisationComponent
+    OrganisationComponent,
+    OrganisationVewComponent,
+    SpecificationViewComponent,
+    AdditionalOptionsViewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDialogModule,
+    FormsModule
   ],
   providers: [
     {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig},
