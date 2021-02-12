@@ -14,11 +14,11 @@
           *ngFor="let specification of specifications">
       <mat-form-field fxFlex="40" appearance="fill">
         <mat-label>Name</mat-label>
-        <input matInput value="{{specification.name}}">
+        <input matInput [(ngModel)]="specification.name" name="name">
       </mat-form-field>
       <mat-form-field fxFlex="50" appearance="fill">
         <mat-label>Value</mat-label>
-        <input matInput  value="{{specification.value}}">
+        <input matInput [(ngModel)]="specification.value" value="{{specification.value}}" name="value">
       </mat-form-field>
       <button (click)="removeSpecification(specification)" class="delete" mat-raised-button color="accent">
         <mat-icon color="primary" aria-hidden="false">delete</mat-icon>

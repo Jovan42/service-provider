@@ -13,14 +13,14 @@
       <mat-label>Description</mat-label>
       <textarea matInput></textarea>
     </mat-form-field>
-
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox [(ngModel)]="organisation.showSpecification" name="showSpecification">Show specification
+      <mat-checkbox [(ngModel)]="organisation.showSpecification" name="showSpecification">
+        Show Specification
       </mat-checkbox>
     </div>
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox [(ngModel)]="organisation.showAdditionalOptions" name="showAdditionalOptions">Show additional
-        options
+      <mat-checkbox [(ngModel)]="organisation.showAdditionalRequirements" name="showAdditionalRequirements">
+        Show Additional Requirements
       </mat-checkbox>
     </div>
   </form>
@@ -33,18 +33,18 @@
     </div>
     <div fxFlex="30">
       <button fxFlex="100" type="button" mat-raised-button color="accent"
-              (click)="openAdditionalOptions()" *ngIf="organisation.showAdditionalOptions">
+              (click)="openAdditionalOptions()" *ngIf="organisation.showAdditionalRequirements">
         View Additional Options
       </button>
     </div>
   </div>
   <div fxFlex="100" style="margin-top: 2em" fxLayout="row" fxLayoutAlign="end center">
-    <button style="margin-right: 1em" class="delete" *ngIf="organisation.showSpecification" mat-raised-button
+    <button style="margin-right: 1em" class="delete" mat-raised-button
             color="accent">
       <mat-icon color="primary" aria-hidden="false">delete</mat-icon>
       Delete
     </button>
-    <button mat-raised-button color="accent" *ngIf="organisation.showSpecification" (click)="save()">
+    <button mat-raised-button color="accent" (click)="save()">
       <mat-icon color="primary" aria-hidden="false">save</mat-icon>
       Save
     </button>

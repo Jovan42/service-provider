@@ -24,9 +24,7 @@ table {
   color: colors.$custom-light;
 }
 
-button:hover {
-  background: colors.$custom-light !important;
-}
+
 
 .mat-expansion-panel {
   margin-bottom: 1em !important;
@@ -36,11 +34,3 @@ button:hover {
   background: colors.$custom-light !important;
 }
 
-.delete {
-  background: colors.$delete !important;
-}
-
-.add {
-  background: colors.$add !important;
-  margin-left: 1em;
-}

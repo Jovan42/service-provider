@@ -1,34 +1,66 @@
+<h1>Additional Requirements</h1>
 <mat-dialog-content>
   <div fxLayout="row wrap" fxFlex="100" fxLayout.xs="column warp" fxLayoutAlign="space-between start">
-
     <div class="bottom-margin" fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
       <button mat-raised-button color="accent" (click)="closeDialogAndSave()">
         <mat-icon color="primary" aria-hidden="false">save</mat-icon>
-        Save Specification
+        Save Requirements
       </button>
       <button class="add" mat-raised-button color="accent" (click)="addGroup()">
         <mat-icon color="primary" aria-hidden="false">add</mat-icon>
       </button>
     </div>
-    <mat-expansion-panel fxFlex="100" hideToggle *ngFor="let menuPart of groups">
+    Groups
+    <mat-expansion-panel fxFlex="100" hideToggle *ngFor="let group of groups">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          Roštilj
+          {{group.name || group.name != '' ? group.name : 'click to edit'}}
         </mat-panel-title>
+        <button class="delete" (click)="removeGroup(group, $event)" mat-raised-button
+                color="accent">
+          <mat-icon color="primary" aria-hidden="false">delete</mat-icon>
+        </button>
       </mat-expansion-panel-header>
-      <form fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
-        <mat-form-field fxFlex="30" appearance="fill">
-          <mat-label>Name of the group</mat-label>
-          <input matInput>
-        </mat-form-field>
-        <mat-form-field fxFlex="30" appearance="fill">
-          <mat-label>Description</mat-label>
-          <input matInput>
-        </mat-form-field>
-      </form>
-      <button class="add" mat-raised-button color="accent">
-        <mat-icon color="primary" aria-hidden="false">add</mat-icon>
-      </button>
+      <div fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+        <form fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+          <mat-form-field fxFlex="30" appearance="fill">
+            <mat-label>Name of the group</mat-label>
+            <input [(ngModel)]="group.name" matInput name="groupName">
+          </mat-form-field>
+          <mat-form-field fxFlex="30" appearance="fill" >
+            <mat-label>Description</mat-label>
+            <input [(ngModel)]="group.description" matInput name="groupDescription">
+          </mat-form-field>
+          <mat-form-field fxFlex="10" appearance="fill">
+            <mat-label>Max</mat-label>
+            <input [(ngModel)]="group.maxSelected" matInput  name="groupMax">
+          </mat-form-field>
+          <mat-form-field fxFlex="10" appearance="fill">
+            <mat-label>Min</mat-label>
+            <input  [(ngModel)]="group.minSelected" matInput  name="groupMin">
+          </mat-form-field>
+        </form>
+        <div style="margin-bottom: 1em" fxFlex="100" fxLayout="row" fxLayoutAlign="end center">
+          <button class="add" mat-raised-button color="accent" (click)="addRequirements(group)">
+            <mat-icon color="primary" aria-hidden="false">add</mat-icon>
+          </button>
+        </div>
+        <form fxLayout="row wrap" fxFlex="100" fxLayout.xs="column warp" fxLayoutAlign="space-between start"
+              *ngFor="let requirement of group.requirements">
+          <mat-form-field fxFlex="40" appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput value="{{requirement.name}}" [(ngModel)]="requirement.name" name="requirementName">
+          </mat-form-field>
+          <mat-form-field fxFlex="50" appearance="fill">
+            <mat-label>Price</mat-label>
+            <input matInput value="{{requirement.price}}" [(ngModel)]="requirement.price" name="requirementPrice">
+          </mat-form-field>
+          <button (click)="removeRequirement(requirement, group.requirements)" class="delete" mat-raised-button
+                  color="accent">
+            <mat-icon color="primary" aria-hidden="false">delete</mat-icon>
+          </button>
+        </form>
+      </div>
     </mat-expansion-panel>
   </div>
 </mat-dialog-content>

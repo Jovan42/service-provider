@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+
 @include mat-core();
 
 $custom-primary: #26282b;
@@ -6,7 +7,9 @@ $custom-secondary: #5f85db;
 $custom-warm-c: #353941;
 $custom-light: #90b8f8;
 $delete: #eb6e65;
+$delete-hover: #eb9791;
 $add: #a4e8a0;
+$add-hover: #d2edd1;
 
 $custom: (
   500: $custom-primary,
@@ -75,4 +78,59 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: $custom-secondary;
+}
+
+input {
+  caret-color: $custom-light !important;
+}
+
+.mat-expansion-panel {
+  margin-bottom: 1em !important;
+  margin-top: 1em !important;
+}
+
+
+::ng-deep .mat-dialog-container {
+  background: $custom-primary !important;
+}
+
+.bottom-margin {
+  margin-bottom: 1em;
+}
+
+.delete {
+  background: $delete !important;
+}
+
+.delete:hover {
+  background: $delete-hover !important;
+}
+
+.add {
+  background: $add !important;
+  margin-left: 1em;
+}
+
+.add:hover {
+  background: $add-hover !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.md-dialog-container {
+  background-color: #000;
+  width: 250px;
+  height: 250px
+}
+
+button:hover {
+  background: $custom-light !important;
 }

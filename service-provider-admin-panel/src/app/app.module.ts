@@ -14,6 +14,7 @@ import { OrganisationVewComponent } from './organisation-vew/organisation-vew.co
 import { SpecificationViewComponent } from './specification-view/specification-view.component';
 import { AdditionalOptionsViewComponent } from './additional-options-view/additional-options-view.component';
 import {FormsModule} from '@angular/forms';
+import { OrganisationsComponent } from './organisations/organisations.component';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -29,7 +30,8 @@ const globalRippleConfig: RippleGlobalOptions = {
     OrganisationComponent,
     OrganisationVewComponent,
     SpecificationViewComponent,
-    AdditionalOptionsViewComponent
+    AdditionalOptionsViewComponent,
+    OrganisationsComponent
   ],
   imports: [
     BrowserModule,

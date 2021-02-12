@@ -1,0 +1,22 @@
+<div fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly center">
+  <mat-card  class="example-card" fxFlex="20" *ngFor="let organisation of organisations">
+    <mat-card-header>
+      <div mat-card-avatar> <mat-icon>business</mat-icon></div>
+      <mat-card-title>{{organisation.name}}</mat-card-title>
+      <mat-card-subtitle>{{organisation.address}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content cdk-scrollable style="height: 150px; overflow-y: scroll;">
+      <p fxFlex="100">
+        {{organisation.description}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions  fxLayout="row" fxLayoutAlign="end center">
+      <button class="delete" mat-raised-button color="accent">
+        <mat-icon color="primary" aria-hidden="false">delete</mat-icon> Delete
+      </button>
+      <button mat-raised-button color="accent" routerLink="/organisations/{{organisation.id}}">
+        <mat-icon color="primary" aria-hidden="false">edit</mat-icon> Edit
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

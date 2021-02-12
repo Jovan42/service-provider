@@ -34,8 +34,9 @@ export class OrganisationVewComponent implements OnInit {
       email: '',
       name: '',
       specifications: [],
+      additionalRequirements: [],
       showSpecification: true,
-      showAdditionalOptions: true
+      showAdditionalRequirements: true
     };
   }
 
@@ -46,19 +47,18 @@ export class OrganisationVewComponent implements OnInit {
     const specificationViewComponentDialog = this.dialog.open(SpecificationViewComponent, dialogConfig);
     specificationViewComponentDialog.afterClosed().subscribe(result => {
       if (result) {
-        this.organisation = result;
+        this.organisation.specifications = result;
       }
     });
   }
 
   openAdditionalOptions(): void {
-    debugger
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
     const specificationViewComponentDialog = this.dialog.open(AdditionalOptionsViewComponent, dialogConfig);
     specificationViewComponentDialog.afterClosed().subscribe(result => {
-
+      this.organisation.additionalRequirements = result;
     });
   }
 }
