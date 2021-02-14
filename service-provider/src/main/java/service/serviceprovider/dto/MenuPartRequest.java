@@ -13,6 +13,6 @@ public class MenuPartRequest {
     @NotBlank
     private String name;
     private String description;
-    List<MenuItemsRequest> menuItems;
+    List<MenuItemRequest> menuItems;
 
 }

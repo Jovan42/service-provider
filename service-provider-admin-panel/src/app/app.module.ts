@@ -7,14 +7,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions} from '@angular/material/core';
 import {MaterialModule} from './material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { OrganisationComponent } from './organisation/organisation.component';
-import { RouterModule } from '@angular/router';
+import {ServiceproviderComponent} from './serviceprovider/serviceprovider.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { OrganisationVewComponent } from './organisation-vew/organisation-vew.component';
-import { SpecificationViewComponent } from './specification-view/specification-view.component';
-import { AdditionalOptionsViewComponent } from './additional-options-view/additional-options-view.component';
+import {MenuItemComponent} from './organisation-vew/menu-item.component';
+import {SpecificationViewComponent} from './specification-view/specification-view.component';
+import {AdditionalOptionsViewComponent} from './additional-options-view/additional-options-view.component';
 import {FormsModule} from '@angular/forms';
-import { OrganisationsComponent } from './organisations/organisations.component';
+import {OrganisationsComponent} from './organisations/organisations.component';
+import {ServiceProvidersService} from './services/service.providers.service';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -27,8 +28,8 @@ const globalRippleConfig: RippleGlobalOptions = {
 @NgModule({
   declarations: [
     AppComponent,
-    OrganisationComponent,
-    OrganisationVewComponent,
+    ServiceproviderComponent,
+    MenuItemComponent,
     SpecificationViewComponent,
     AdditionalOptionsViewComponent,
     OrganisationsComponent
@@ -40,10 +41,13 @@ const globalRippleConfig: RippleGlobalOptions = {
     MaterialModule,
     FlexLayoutModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
     {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig},
+    HttpClient,
+    ServiceProvidersService
 
   ],
   bootstrap: [AppComponent]

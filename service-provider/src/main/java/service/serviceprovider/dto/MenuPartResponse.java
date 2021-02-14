@@ -11,5 +11,5 @@ public class MenuPartResponse {
     private Long id;
     private String name;
     private String description;
-    List<MenuItemsResponse> menuItems;
+    List<MenuItemResponse> menuItems;
 }

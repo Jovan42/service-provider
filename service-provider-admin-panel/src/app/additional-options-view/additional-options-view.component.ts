@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AdditionalRequirement, AdditionalRequirementsGroup} from '../models/Organisation';
+import {AdditionalRequirement, AdditionalRequirementsGroup} from '../models/ServiceProvider';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 @Component({

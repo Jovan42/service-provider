@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import service.serviceprovider.controllers.api.ServiceProviderRestApi;
 import service.serviceprovider.dto.ServiceProviderRequest;
 import service.serviceprovider.dto.ServiceProviderResponse;
@@ -21,6 +22,7 @@ public class ServiceProviderController implements ServiceProviderRestApi {
     }
 
     @Override
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CustomPage<ServiceProviderResponse>> search(Integer pageNumber,
                                                                       Integer pageSize) {
         return new ResponseEntity<>(serviceProviderService.search(PageRequest.of(pageNumber, pageSize)), HttpStatus.OK);

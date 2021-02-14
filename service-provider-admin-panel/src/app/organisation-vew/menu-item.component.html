@@ -3,23 +3,23 @@
   <form fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
     <mat-form-field fxFlex="45" appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="menuItem.name" name="name">
     </mat-form-field>
     <mat-form-field fxFlex="45" appearance="fill">
       <mat-label>Price</mat-label>
-      <input type="number" matInput>
+      <input type="number" matInput [(ngModel)]="menuItem.price" name="price">
     </mat-form-field>
     <mat-form-field fxFlex="90" appearance="fill">
       <mat-label>Description</mat-label>
-      <textarea matInput></textarea>
+      <textarea matInput [(ngModel)]="menuItem.description" name="description"></textarea>
     </mat-form-field>
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox [(ngModel)]="organisation.showSpecification" name="showSpecification">
+      <mat-checkbox name="showSpecification">
         Show Specification
       </mat-checkbox>
     </div>
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox [(ngModel)]="organisation.showAdditionalRequirements" name="showAdditionalRequirements">
+      <mat-checkbox name="showAdditionalRequirements">
         Show Additional Requirements
       </mat-checkbox>
     </div>
@@ -27,13 +27,13 @@
   <div fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
     <div fxFlex="30">
       <button fxFlex="100" type="button" mat-raised-button color="accent"
-              (click)="openSpecifications()" *ngIf="organisation.showSpecification">
+              (click)="openSpecifications()" *ngIf="menuItem && menuItem.showSpecification">
         View Specifications
       </button>
     </div>
     <div fxFlex="30">
       <button fxFlex="100" type="button" mat-raised-button color="accent"
-              (click)="openAdditionalOptions()" *ngIf="organisation.showAdditionalRequirements">
+              (click)="openAdditionalOptions()" *ngIf="menuItem && menuItem.showAdditionalRequirements">
         View Additional Options
       </button>
     </div>

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MenuItemsResponse {
+public class MenuItemResponse {
     private Long id;
     private String name;
     private String description;
