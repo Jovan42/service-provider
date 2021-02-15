@@ -4,6 +4,7 @@ import {MenuItemComponent} from '../organisation-vew/menu-item.component';
 import {ServiceProvidersService} from '../services/service.providers.service';
 import {ActivatedRoute} from '@angular/router';
 import {ServiceProvider} from '../models/ServiceProvider';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-serviceprovider',
@@ -14,7 +15,7 @@ export class ServiceproviderComponent implements OnInit {
   columnsToDisplay: string[] = ['Name', 'Description', 'Price'];
   serviceProviderId: number;
   serviceProvider: ServiceProvider = {address: '', description: '', email: '', name: '', manualApprovalRequired: true};
-  constructor(public dialog: MatDialog, private serviceProvidersService: ServiceProvidersService, private route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private serviceProvidersService: ServiceProvidersService, private route: ActivatedRoute, private toastr: ToastrService) {
     this.serviceProviderId = this.route.snapshot.params.id;
   }
 
@@ -22,6 +23,7 @@ export class ServiceproviderComponent implements OnInit {
     this.serviceProvidersService.getServiceProviderById(this.serviceProviderId).subscribe(response => {
       this.serviceProvider = response;
     });
+    this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
   rowClicked(row): void {

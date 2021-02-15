@@ -10,6 +10,7 @@ import service.serviceprovider.domain.ServiceProvider;
 import service.serviceprovider.dto.ServiceProviderRequest;
 import service.serviceprovider.dto.ServiceProviderResponse;
 import service.serviceprovider.repositories.MenuItemRepository;
+import service.serviceprovider.repositories.MenuPartRepository;
 import service.serviceprovider.repositories.OrganisationRepository;
 import service.serviceprovider.repositories.ServiceProviderRepository;
 import service.sharedlib.dto.CustomPage;
@@ -36,6 +37,7 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
     private final ServiceProviderRepository serviceProviderRepository;
     private final OrganisationRepository organisationRepository;
     private final MenuItemRepository menuItemRepository;
+    private final MenuPartRepository menuPartRepository;
     private final KafkaTemplate<String, BaseEvent> kafkaTemplate;
 
     @Autowired
@@ -44,11 +46,12 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
             ServiceProviderRepository serviceProviderRepository,
             OrganisationRepository organisationRepository,
             MenuItemRepository menuItemRepository,
-            KafkaTemplate<String, BaseEvent> kafkaTemplate) {
+            MenuPartRepository menuPartRepository, KafkaTemplate<String, BaseEvent> kafkaTemplate) {
         this.modelMapper = modelMapper;
         this.serviceProviderRepository = serviceProviderRepository;
         this.organisationRepository = organisationRepository;
         this.menuItemRepository = menuItemRepository;
+        this.menuPartRepository = menuPartRepository;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -79,10 +82,12 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
 
     @Override
     public ServiceProviderResponse getById(Long serviceProviderId) {
+        ServiceProvider serviceProvider = serviceProviderRepository
+                .findById(serviceProviderId)
+                .orElseThrow(NotFoundException::new);
+        serviceProvider.setMenuParts(menuPartRepository.findAllByServiceProvider_Id(serviceProviderId));
         return modelMapper.map(
-                serviceProviderRepository
-                        .findById(serviceProviderId)
-                        .orElseThrow(NotFoundException::new),
+                serviceProvider,
                 ServiceProviderResponse.class);
     }
 

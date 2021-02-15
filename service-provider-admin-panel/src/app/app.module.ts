@@ -16,6 +16,7 @@ import {FormsModule} from '@angular/forms';
 import {OrganisationsComponent} from './organisations/organisations.component';
 import {ServiceProvidersService} from './services/service.providers.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {ToastrModule} from 'ngx-toastr';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -42,7 +43,9 @@ const globalRippleConfig: RippleGlobalOptions = {
     FlexLayoutModule,
     MatDialogModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(),
   ],
   providers: [
     {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig},

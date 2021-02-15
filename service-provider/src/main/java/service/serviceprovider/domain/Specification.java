@@ -6,17 +6,14 @@ import service.sharedlib.domain.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class SpecificationPart extends BaseEntity {
+public class Specification extends BaseEntity {
+    private Long id;
     private String name;
-    private String description;
-    @OneToMany(mappedBy = "specificationPart")
-    List<SpecificationItem> specificationItems;
-    @ManyToOne
+    private String value;
+    @ManyToOne()
     private MenuItem menuItem;
 }

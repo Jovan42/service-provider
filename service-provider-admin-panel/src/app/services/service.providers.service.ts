@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ResourceService} from './resource.service';
-import {MenuItem, ServiceProvider, ServiceProviderListResponse} from '../models/ServiceProvider';
+import {MenuItem, ServiceProvider, ServiceProviderListResponse, Specification} from '../models/ServiceProvider';
 import {Observable} from 'rxjs';
 
 @Injectable()
@@ -18,5 +18,13 @@ export class ServiceProvidersService {
 
   getMenuItem(id): Observable<MenuItem> {
     return this.resourceService.get(this.baseUrl + '/menuItems/' + id);
+  }
+
+  getSpecifications(id: number): Observable<Specification[]> {
+    return this.resourceService.get(this.baseUrl + '/menuItems/' + id + '/specifications');
+  }
+
+  saveSpecifications(id: number, specifications: Specification[]): Observable<Specification[]> {
+    return this.resourceService.create(this.baseUrl + '/menuItems/' + id + '/specifications', specifications);
   }
 }

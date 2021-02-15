@@ -37,6 +37,7 @@ export class MenuItemComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
+    dialogConfig.data = this.menuItem;
     const specificationViewComponentDialog = this.dialog.open(SpecificationViewComponent, dialogConfig);
     specificationViewComponentDialog.afterClosed().subscribe(result => {
       if (result) {

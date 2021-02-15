@@ -47,7 +47,7 @@ CREATE TABLE menu_item (
     FOREIGN KEY (menu_part_id) REFERENCES menu_part(id)
 );
 
-CREATE TABLE specification_part (
+CREATE TABLE specification_item (
    `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
    `created_time` datetime,
    `deleted` bit,
@@ -56,16 +56,5 @@ CREATE TABLE specification_part (
    `name` varchar(255),
    `menu_item_id` bigint,
    FOREIGN KEY (menu_item_id) REFERENCES menu_item(id)
-);
-
-CREATE TABLE specification_item (
-   `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
-   `created_time` datetime,
-   `deleted` bit,
-   `last_modified` datetime,
-   `description` varchar(255),
-   `name` varchar(255),
-   `specification_part_id` bigint,
-   FOREIGN KEY (specification_part_id) REFERENCES specification_item(id)
 );
 COMMIT;

@@ -17,7 +17,7 @@ public class ServiceProvider extends BaseEntity {
     private String name;
     private String address;
     private String description;
-    @OneToMany(mappedBy = "serviceProvider", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "serviceProvider")
     List<MenuPart> menuParts;
     @ManyToOne
     private Organisation organisation;

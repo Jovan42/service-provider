@@ -17,7 +17,7 @@ public class MenuItem extends BaseEntity {
     private String description;
     private Double price;
     @OneToMany(mappedBy = "menuItem")
-    List<SpecificationPart> specificationParts;
+    List<Specification> specifications;
     @ManyToOne()
     private MenuPart menuPart;
 }

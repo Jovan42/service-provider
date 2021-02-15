@@ -14,12 +14,12 @@
       <textarea matInput [(ngModel)]="menuItem.description" name="description"></textarea>
     </mat-form-field>
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox name="showSpecification">
+      <mat-checkbox name="showSpecification" [(ngModel)]="menuItem.showSpecification">
         Show Specification
       </mat-checkbox>
     </div>
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox name="showAdditionalRequirements">
+      <mat-checkbox name="showAdditionalRequirements"  [(ngModel)]="menuItem.showAdditionalRequirements">
         Show Additional Requirements
       </mat-checkbox>
     </div>

@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {Specification} from '../models/ServiceProvider';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ServiceProvidersService} from '../services/service.providers.service';
 
 @Component({
   selector: 'app-specification-view',
@@ -10,11 +11,17 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 export class SpecificationViewComponent implements OnInit {
   private data;
   public specifications: Specification[] = [];
-  constructor(private dialogRef: MatDialogRef<SpecificationViewComponent>, @Inject(MAT_DIALOG_DATA) data) {
+
+  constructor(private dialogRef: MatDialogRef<SpecificationViewComponent>,
+              @Inject(MAT_DIALOG_DATA) data,
+              private serviceProvidersService: ServiceProvidersService) {
     this.data = data;
   }
 
   ngOnInit(): void {
+    this.serviceProvidersService.getSpecifications(this.data.id).subscribe(specifications => {
+      this.specifications = specifications;
+    });
   }
 
   removeSpecification(specification: Specification): void {
@@ -26,6 +33,9 @@ export class SpecificationViewComponent implements OnInit {
   }
 
   closeDialogAndSave(): void {
-    this.dialogRef.close(this.specifications);
+    this.serviceProvidersService.saveSpecifications(this.data.id, this.specifications).subscribe(result => {
+
+      this.dialogRef.close(this.specifications);
+    });
   }
 }
