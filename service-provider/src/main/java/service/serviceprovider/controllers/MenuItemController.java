@@ -12,7 +12,7 @@ import service.sharedlib.dto.CustomPage;
 
 @Controller
 public class MenuItemController implements MenuItemRestApi {
-    private MenuItemService menuItemService;
+    private final MenuItemService menuItemService;
 
     @Autowired
     public MenuItemController(MenuItemService menuItemService) {
@@ -31,8 +31,8 @@ public class MenuItemController implements MenuItemRestApi {
     }
 
     @Override
-    public ResponseEntity<MenuItemResponse> create(Long menuItem, MenuItemRequest menuItemRequest) {
-        return null;
+    public ResponseEntity<MenuItemResponse> create(Long menuPartId, MenuItemRequest menuItemRequest) {
+        return new ResponseEntity<>(menuItemService.create(menuPartId, menuItemRequest), HttpStatus.CREATED);
     }
 
     @Override

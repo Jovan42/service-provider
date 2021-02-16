@@ -10,25 +10,25 @@ import service.serviceprovider.dto.MenuItemResponse;
 import service.sharedlib.dto.CustomPage;
 
 @Api
-@RequestMapping("menuItems")
+@RequestMapping("")
 public interface MenuItemRestApi {
 
-    @GetMapping("/{menuItemId}")
+    @GetMapping("menuItems/{menuItemId}")
     @ApiOperation(value = "Get MenuItem by ID")
     ResponseEntity<MenuItemResponse> getById(@PathVariable(required = false) Long menuItemId);
 
-    @GetMapping("")
+    @GetMapping("menuItems")
     @ApiOperation(value = "Search service providers menu")
     ResponseEntity<CustomPage<MenuItemResponse>> search(
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize);
 
-    @PostMapping("/{menuItemId}")
+    @PostMapping("menuParts/{menuPartId}/menuItems")
     @ApiOperation(value = "Create MenuItem for specific service provider")
     ResponseEntity<MenuItemResponse> create(
-            @PathVariable Long menuItemId, @Validated @RequestBody MenuItemRequest menuItemRequest);
+            @PathVariable Long menuPartId, @Validated @RequestBody MenuItemRequest menuItemRequest);
 
-    @PutMapping("/{menuItemId}")
+    @PutMapping("menuItems/{menuItemId}")
     @ApiOperation(value = "Update MenuItem")
     ResponseEntity<MenuItemResponse> update(
             @PathVariable Long menuItemId, @Validated @RequestBody MenuItemRequest menuItemRequest);

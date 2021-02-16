@@ -27,4 +27,9 @@ export class ServiceProvidersService {
   saveSpecifications(id: number, specifications: Specification[]): Observable<Specification[]> {
     return this.resourceService.create(this.baseUrl + '/menuItems/' + id + '/specifications', specifications);
   }
+
+  addMenuItem(menuPartId: number, menuItem: MenuItem): Observable<Specification[]> {
+    return this.resourceService.create(this.baseUrl + '/menuParts/' + menuPartId + '/menuItems', menuItem);
+  }
+
 }

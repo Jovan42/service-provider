@@ -17,6 +17,7 @@ import {OrganisationsComponent} from './organisations/organisations.component';
 import {ServiceProvidersService} from './services/service.providers.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ToastrModule} from 'ngx-toastr';
+import { NewMenuItemComponent } from './new-menu-item/new-menu-item.component';
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -33,7 +34,8 @@ const globalRippleConfig: RippleGlobalOptions = {
     MenuItemComponent,
     SpecificationViewComponent,
     AdditionalOptionsViewComponent,
-    OrganisationsComponent
+    OrganisationsComponent,
+    NewMenuItemComponent
   ],
   imports: [
     BrowserModule,

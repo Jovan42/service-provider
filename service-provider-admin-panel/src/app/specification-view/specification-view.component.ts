@@ -37,7 +37,7 @@ export class SpecificationViewComponent implements OnInit {
 
   closeDialogAndSave(): void {
     this.serviceProvidersService.saveSpecifications(this.data.id, this.specifications).subscribe(result => {
-      UtilFunctions.errorSnackbar(this.snackBar, 'Specification successfully saved');
+      UtilFunctions.successSnackbar(this.snackBar, 'Specification successfully saved');
       this.dialogRef.close(this.specifications);
     });
   }

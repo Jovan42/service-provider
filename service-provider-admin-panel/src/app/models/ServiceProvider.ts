@@ -48,10 +48,10 @@ export interface MenuParts {
 }
 
 export interface MenuItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
+  id?: number;
+  name?: string;
+  description?: string;
+  price?: number;
   specifications?: Specification[];
   additionalRequirements?: Specification[];
   showSpecification?: boolean;

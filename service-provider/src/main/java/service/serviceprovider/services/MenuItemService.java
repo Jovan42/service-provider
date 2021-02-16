@@ -8,14 +8,14 @@ import service.sharedlib.dto.CustomPage;
 
 @Service
 public interface MenuItemService {
-    MenuItemResponse create(Long serviceProviderId, MenuItemRequest menuItemRequest);
+    MenuItemResponse create(Long menuPartId, MenuItemRequest menuItemRequest);
 
     MenuItemResponse getById(Long menuItemId);
 
-    MenuItemResponse update(Long serviceProviderId,
+    MenuItemResponse update(Long menuPartId,
                             Long menuItemId,
                             MenuItemRequest menuItemRequest);
 
-    CustomPage<MenuItemResponse> searchByServiceProvider(Long serviceProviderId, Pageable pageable);
+    CustomPage<MenuItemResponse> searchByMenuPartId(Long menuPartId, Pageable pageable);
 
 }

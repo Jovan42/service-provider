@@ -24,13 +24,19 @@
     </button>
   </div>
   <h1>Menu</h1>
+  <div fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="end end">
+    <button class="add" mat-raised-button color="accent">
+      <mat-icon color="primary" aria-hidden="false">add</mat-icon> Menu group
+    </button>
+  </div>
+
   <mat-expansion-panel hideToggle *ngFor = "let menuPart of serviceProvider ? serviceProvider.menuParts: []">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{menuPart.name}}
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <form fxLayout="" fxLayout="row wrap"  fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+    <form fxLayout="row wrap"  fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
       <mat-form-field fxFlex="30" appearance="fill">
         <mat-label>Name</mat-label>
         <input matInput  [(ngModel)]="menuPart.name" name="menuPartName">
@@ -44,8 +50,9 @@
           <mat-icon color="primary" aria-hidden="false">save</mat-icon>Save
         </button>
       </div>
-      <button class="add" mat-raised-button color="accent">
-        <mat-icon  color="primary" aria-hidden="false">add</mat-icon>
+      <button class="add" mat-raised-button color="accent" (click)="addMenuItem(menuPart)">
+        <mat-icon color="primary" aria-hidden="false">add</mat-icon>
+        Menu Item
       </button>
     </form>
     <table mat-table [dataSource]="menuPart.menuItems" class="mat-elevation-z8">
