@@ -16,6 +16,8 @@ public class MenuItem extends BaseEntity {
     private String name;
     private String description;
     private Double price;
+    private Boolean showSpecification;
+    private Boolean showAdditionalRequirements;
     @OneToMany(mappedBy = "menuItem")
     List<Specification> specifications;
     @ManyToOne()

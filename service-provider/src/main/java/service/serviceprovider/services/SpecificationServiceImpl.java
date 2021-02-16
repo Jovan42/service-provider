@@ -56,7 +56,7 @@ public class SpecificationServiceImpl implements SpecificationService {
     @Override
     public List<SpecificationResponse> get(Long menuItemId) {
         return specificationRepository
-                .findAllByMenuItem_IdAndDeletedOrDeleted(menuItemId, false, null)
+                .findAllByMenuItem(menuItemId)
                 .stream()
                 .map(spec -> modelMapper.map(spec, SpecificationResponse.class))
                 .collect(Collectors.toList());
