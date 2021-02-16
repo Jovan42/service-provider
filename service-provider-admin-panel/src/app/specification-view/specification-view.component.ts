@@ -2,6 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {Specification} from '../models/ServiceProvider';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ServiceProvidersService} from '../services/service.providers.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {UtilFunctions} from '../utilFunctions';
 
 @Component({
   selector: 'app-specification-view',
@@ -14,7 +16,8 @@ export class SpecificationViewComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<SpecificationViewComponent>,
               @Inject(MAT_DIALOG_DATA) data,
-              private serviceProvidersService: ServiceProvidersService) {
+              private serviceProvidersService: ServiceProvidersService,
+              private snackBar: MatSnackBar) {
     this.data = data;
   }
 
@@ -34,7 +37,7 @@ export class SpecificationViewComponent implements OnInit {
 
   closeDialogAndSave(): void {
     this.serviceProvidersService.saveSpecifications(this.data.id, this.specifications).subscribe(result => {
-
+      UtilFunctions.errorSnackbar(this.snackBar, 'Specification successfully saved');
       this.dialogRef.close(this.specifications);
     });
   }

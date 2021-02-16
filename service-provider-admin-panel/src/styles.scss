@@ -135,4 +135,27 @@ button:hover {
   background: $custom-light !important;
 }
 
+::ng-deep .success-snackbar {
+  background: $add-hover !important;
+}
+
+::ng-deep .success-snackbar button {
+  background: $add !important;
+}
+
+::ng-deep .success-snackbar button:hover {
+  background: $add-hover !important;
+}
+
+::ng-deep .error-snackbar {
+  background: $delete-hover !important;
+}
+
+::ng-deep .error-snackbar button {
+  background: $delete !important;
+}
+
+::ng-deep .error-snackbar button:hover {
+  background: $delete-hover !important;
+}
 
