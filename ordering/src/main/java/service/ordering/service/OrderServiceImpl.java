@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse create(OrderRequest orderRequest) {
+    public OrderResponse  create(OrderRequest orderRequest) {
         Order order = modelMapper.map(orderRequest, Order.class);
         order.getBoughtItems().forEach(boughtItem -> boughtItem.setOrder(order));
         order.setCreatedTime(LocalDateTime.now());
@@ -102,8 +102,6 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-
-
     @Override
     public OrderResponse manuallyApprove(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
@@ -121,6 +119,21 @@ public class OrderServiceImpl implements OrderService {
                             .price(calculatePrice(order.getBoughtItems()))
                             .build());
             return modelMapper.map(savedOrder, OrderResponse.class);
+        } else {
+            throw new BadRequestException(
+                    String.format(
+                            "Order [%d] is not in correct status and can not be manually approved",
+                            orderId));
+        }
+    }
+
+    @Override
+    public void accountApproved(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        if (order.getStatus() == OrderStatus.PENDING_ACCOUNT_VALIDATION) {
+            order.setStatus(OrderStatus.PENDING_PREPARATION);
+            order.setLastModified(LocalDateTime.now());
+            orderRepository.save(order);
         } else {
             throw new BadRequestException(
                     String.format(

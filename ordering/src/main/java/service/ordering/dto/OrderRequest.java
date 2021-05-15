@@ -16,4 +16,8 @@ public class OrderRequest {
     @NotNull
     @NotEmpty
     List<BoughtItemRequest> boughtItems;
+    @NotNull
+    private Integer userId;
+    @NotNull
+    private Integer accountId;
 }

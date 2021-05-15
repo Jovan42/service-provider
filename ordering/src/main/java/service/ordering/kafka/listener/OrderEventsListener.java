@@ -5,6 +5,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import service.ordering.service.OrderService;
+import service.sharedlib.events.AccountValidationFinishedEvent;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderItemsApprovedEvent;
 import service.sharedlib.events.OrderRequestDeclinedEvent;
@@ -28,6 +29,11 @@ public class OrderEventsListener {
         orderService.orderItemsApproved(orderItemsApprovedEvent.getOrderId(),
                 orderItemsApprovedEvent.getManualApprovalRequired(),
                 orderItemsApprovedEvent.getOrderItems());
+    }
+
+    @KafkaHandler()
+    public void listenOrderCreatedEvent(@Payload AccountValidationFinishedEvent accountValidationFinishedEvent) {
+        orderService.accountApproved(accountValidationFinishedEvent.getOrderId());
     }
 
     @KafkaHandler(isDefault = true)

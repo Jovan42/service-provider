@@ -11,17 +11,10 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import service.sharedlib.ErrorEnums;
 import service.sharedlib.events.BaseEvent;
-import service.sharedlib.events.OrderRequestDeclinedEvent;
-import service.sharedlib.exceptions.InvalidOrderException;
-import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
-import java.security.Provider;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 @EnableKafka
 @Configuration

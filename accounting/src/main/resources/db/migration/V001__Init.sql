@@ -19,6 +19,7 @@ CREATE TABLE account (
     `account_number` varchar(255),
     `status` varchar(255),
     `user_id` bigint,
+    `balance` double DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 

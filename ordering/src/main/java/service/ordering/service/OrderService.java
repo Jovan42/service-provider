@@ -14,4 +14,5 @@ public interface OrderService {
     void invalidateRequest(Long orderId, OrderInvalidReason reason);
     void orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems);
     OrderResponse manuallyApprove(Long orderId);
+    void accountApproved(Long orderId);
 }

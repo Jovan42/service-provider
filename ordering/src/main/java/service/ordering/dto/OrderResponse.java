@@ -2,6 +2,7 @@ package service.ordering.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import service.ordering.domain.enums.OrderStatus;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public class OrderResponse {
     private Long id;
     private Long serviceProviderId;
-    @NotNull
     List<BoughtItemResponse> boughtItems;
+    private OrderStatus status;
+    private Integer userId;
+    private Integer accountId;
 }

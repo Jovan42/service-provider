@@ -14,8 +14,10 @@ import java.util.List;
 public class Account extends BaseEntity {
     private String accountNumber;
     private AccountStatus status;
+    private Double balance;
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Transaction> transactions;
+
 }
