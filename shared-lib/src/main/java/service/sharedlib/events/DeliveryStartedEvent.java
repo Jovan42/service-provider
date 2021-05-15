@@ -7,9 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderInPreparationEvent extends BaseEvent {
+public class DeliveryStartedEvent extends BaseEvent {
     private Long orderId;
-    private Long preparationTimeInMinutes;
-    private Long serviceProviderId;
 
 }

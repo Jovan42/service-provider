@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 public class Delivery extends BaseEntity {
     private Long orderId;
     private DeliveryStatus status;
+    private Long serviceProviderId;
+    private Long preparationTimeInMinutes;
     @ManyToOne
     private DeliveryMan deliveryMan;
 }

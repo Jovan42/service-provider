@@ -149,6 +149,8 @@ public class OrderServiceImpl implements OrderService {
         if (order.getStatus() == OrderStatus.PENDING_PREPARATION) {
             order.setStatus(OrderStatus.IN_PREPARATION);
             order.setLastModified(LocalDateTime.now());
+            order.setPreparationTimeInMinutes(preparationTimeInMinutes);
+            order.setServiceProviderId(order.getServiceProviderId());
             Order savedOrder = orderRepository.save(order);
             kafkaTemplate.send(
                     "orderTopic",
@@ -156,6 +158,7 @@ public class OrderServiceImpl implements OrderService {
                     OrderInPreparationEvent.builder()
                             .orderId(orderId)
                             .preparationTimeInMinutes(preparationTimeInMinutes)
+                            .serviceProviderId(order.getServiceProviderId())
                             .build());
             return modelMapper.map(savedOrder, OrderResponse.class);
         } else {

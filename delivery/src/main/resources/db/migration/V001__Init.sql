@@ -30,6 +30,8 @@ CREATE TABLE delivery (
     `deleted` bit,
     `status` int,
     `delivery_man_id` bigint,
+    `service_provider_id` bigint,
+    `preparation_time_in_minutes` bigint default 0,
     FOREIGN KEY (delivery_man_id) REFERENCES delivery_man(id)
 );
 
