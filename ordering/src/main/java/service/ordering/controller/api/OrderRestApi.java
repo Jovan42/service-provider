@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import service.ordering.dto.OrderRequest;
 import service.ordering.dto.OrderResponse;
+import service.ordering.dto.StartOrderPreparationRequest;
 
 @Api
 @RequestMapping("orders")
@@ -19,4 +20,10 @@ public interface OrderRestApi {
     @PutMapping("/{orderId}/manuallyApprove")
     @ApiOperation(value = "Manually Approve Order")
     ResponseEntity<OrderResponse> manuallyApprove(@PathVariable Long orderId);
+
+    @PutMapping("/{orderId}/startPreparation")
+    @ApiOperation(value = "Start Order Preparation")
+    ResponseEntity<OrderResponse> startPreparation(
+            @PathVariable Long orderId,
+            @RequestBody StartOrderPreparationRequest startOrderPreparationRequest);
 }

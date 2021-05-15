@@ -15,4 +15,5 @@ public interface OrderService {
     void orderItemsApproved(Long orderId, Boolean manualApprovalRequired, Map<Long, OrderItem> orderItems);
     OrderResponse manuallyApprove(Long orderId);
     void accountApproved(Long orderId);
+    OrderResponse startPreparation(Long orderId, Long preparationTimeInMinutes);
 }

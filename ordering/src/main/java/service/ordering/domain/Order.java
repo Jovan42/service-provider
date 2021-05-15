@@ -18,6 +18,7 @@ public class Order extends BaseEntity {
     private String cancelReason;
     private Long userId;
     private Long accountId;
+    private Long preparationTimeInMinutes;
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BoughtItem> boughtItems;
 }

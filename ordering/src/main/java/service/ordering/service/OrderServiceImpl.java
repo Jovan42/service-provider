@@ -11,6 +11,7 @@ import service.ordering.dto.OrderResponse;
 import service.ordering.repostiroy.OrderRepository;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderCreatedEvent;
+import service.sharedlib.events.OrderInPreparationEvent;
 import service.sharedlib.events.ServiceProviderValidationFinishedEvent;
 import service.sharedlib.events.pojo.OrderItem;
 import service.sharedlib.exceptions.BadRequestException;
@@ -134,6 +135,29 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(OrderStatus.PENDING_PREPARATION);
             order.setLastModified(LocalDateTime.now());
             orderRepository.save(order);
+        } else {
+            throw new BadRequestException(
+                    String.format(
+                            "Order [%d] is not in correct status and can not be manually approved",
+                            orderId));
+        }
+    }
+
+    @Override
+    public OrderResponse startPreparation(Long orderId, Long preparationTimeInMinutes) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        if (order.getStatus() == OrderStatus.PENDING_PREPARATION) {
+            order.setStatus(OrderStatus.IN_PREPARATION);
+            order.setLastModified(LocalDateTime.now());
+            Order savedOrder = orderRepository.save(order);
+            kafkaTemplate.send(
+                    "orderTopic",
+                    "",
+                    OrderInPreparationEvent.builder()
+                            .orderId(orderId)
+                            .preparationTimeInMinutes(preparationTimeInMinutes)
+                            .build());
+            return modelMapper.map(savedOrder, OrderResponse.class);
         } else {
             throw new BadRequestException(
                     String.format(
