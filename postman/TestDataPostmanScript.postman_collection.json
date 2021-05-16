@@ -96,12 +96,28 @@
 				},
 				{
 					"name": "Create Menu Part",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"pm.environment.set('menu_item0.id', responseJson.menuItems[0].id);\r",
+									"pm.environment.set('menu_item0.price', responseJson.menuItems[0].price);\r",
+									"pm.environment.set('menu_item1.id', responseJson.menuItems[1].id);\r",
+									"pm.environment.set('menu_item1.price', responseJson.menuItems[1].price);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Slatke Palacinke\",\r\n    \"description\": \"Slatke Palacinke\",\r\n    \"menuItems\": [\r\n        {\r\n            \"name\": \"Cheesecake Palačinka\",\r\n            \"description\": \"Beli krem, plazma, višnja, pavlaka\",\r\n            \"price\": 200.00\r\n        },\r\n        {\r\n            \"name\": \"Palačinka Vanila\",\r\n            \"description\": \"Krem, plazma, puding vanila\",\r\n            \"price\": 180.00\r\n        },\r\n        {\r\n            \"name\": \"Kinder Palačinka\",\r\n            \"description\": \"Topljena kinder čokolada\",\r\n            \"price\": 250.00\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"name\" : \"Slatke Palacinke\",\r\n    \"description\": \"Slatke Palacinke\",\r\n    \"menuItems\": [\r\n        {\r\n            \"name\": \"Cheesecake Palačinka\",\r\n            \"description\": \"Beli krem, plazma, višnja, pavlaka\",\r\n            \"price\": 200.00,\r\n            \"showSpecification\": true,\r\n            \"showAdditionalRequirements\": true\r\n        },\r\n        {\r\n            \"name\": \"Palačinka Vanila\",\r\n            \"description\": \"Krem, plazma, puding vanila\",\r\n            \"price\": 180.00,\r\n            \"showSpecification\": false,\r\n            \"showAdditionalRequirements\": false\r\n        },\r\n        {\r\n            \"name\": \"Kinder Palačinka\",\r\n            \"description\": \"Topljena kinder čokolada\",\r\n            \"price\": 250.00,\r\n            \"showSpecification\": true,\r\n            \"showAdditionalRequirements\": false\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -129,12 +145,24 @@
 			"item": [
 				{
 					"name": "Create User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"pm.environment.set('user_id', responseJson.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Jovan\",\r\n    \"lastName\": \"Manojlović\",\r\n    \"userName\": \"Jovan0042\",\r\n    \"password\": \"StringPassword123\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"Jovan\",\r\n    \"lastName\": \"Manojlović\",\r\n    \"userName\": \"{{$guid}}\",\r\n    \"password\": \"StringPassword123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -149,6 +177,91 @@
 							"port": "8092",
 							"path": [
 								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add account to user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"pm.environment.set('account_id', responseJson.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"accountNumber\": \"123456-5612\",\r\n    \"lastName\": \"ACTIVE\",\r\n    \"balance\": 100000\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8092/users/{{user_id}}/account",
+							"host": [
+								"localhost"
+							],
+							"port": "8092",
+							"path": [
+								"users",
+								"{{user_id}}",
+								"account"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DeliveryService",
+			"item": [
+				{
+					"name": "Create Delivery Man",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"pm.environment.set('delivery_man_id', responseJson.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Jovan\",\r\n    \"lastName\": \"Manojlović\",\r\n    \"status\": \"ACTIVE\",\r\n    \"contactInformation\": null,\r\n    \"serviceProviderId\": {{service_provider_id}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8093/deliveryPeople",
+							"host": [
+								"localhost"
+							],
+							"port": "8093",
+							"path": [
+								"deliveryPeople"
 							]
 						}
 					},
