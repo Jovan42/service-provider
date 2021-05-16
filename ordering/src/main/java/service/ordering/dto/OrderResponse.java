@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import service.ordering.domain.enums.OrderStatus;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter

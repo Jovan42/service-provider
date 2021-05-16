@@ -10,10 +10,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class BoughtItemRequest {
     private Long id;
-    @NotBlank
-    private Long menuItemId;
-    @NotNull
-    private Double currentPricePerUnit;
-    @NotNull
-    private Integer amount;
+    @NotBlank private Long menuItemId;
+    @NotNull private Double currentPricePerUnit;
+    @NotNull private Integer amount;
 }

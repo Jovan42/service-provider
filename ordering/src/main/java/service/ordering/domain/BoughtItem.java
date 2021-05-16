@@ -14,6 +14,5 @@ public class BoughtItem extends BaseEntity {
     private Long menuItemId;
     private Double currentPricePerUnit;
     private Integer amount;
-    @ManyToOne
-    private Order order;
+    @ManyToOne private Order order;
 }

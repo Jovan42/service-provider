@@ -13,7 +13,9 @@ import service.sharedlib.exceptions.BadRequestException;
 public class EventsExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorMessage> invalidOrderExceptionHandler(BadRequestException exception) {
-        return new ResponseEntity<>(new ErrorMessage(exception.getMessage(), 400), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorMessage> invalidOrderExceptionHandler(
+            BadRequestException exception) {
+        return new ResponseEntity<>(
+                new ErrorMessage(exception.getMessage(), 400), HttpStatus.BAD_REQUEST);
     }
 }

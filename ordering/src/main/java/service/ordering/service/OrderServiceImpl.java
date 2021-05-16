@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse  create(OrderRequest orderRequest) {
+    public OrderResponse create(OrderRequest orderRequest) {
         Order order = modelMapper.map(orderRequest, Order.class);
         order.getBoughtItems().forEach(boughtItem -> boughtItem.setOrder(order));
         order.setCreatedTime(LocalDateTime.now());
@@ -176,9 +176,7 @@ public class OrderServiceImpl implements OrderService {
             kafkaTemplate.send(
                     "orderTopic",
                     "",
-                    OrderPreparationFinishedEvent.builder()
-                            .orderId(orderId)
-                            .build());
+                    OrderPreparationFinishedEvent.builder().orderId(orderId).build());
             return modelMapper.map(savedOrder, OrderResponse.class);
         } else {
             throw new BadRequestException(
@@ -194,6 +192,22 @@ public class OrderServiceImpl implements OrderService {
         if (order.getStatus() == OrderStatus.PREPARED) {
             order.setStatus(OrderStatus.IN_DELIVERY);
             order.setLastModified(LocalDateTime.now());
+            orderRepository.save(order);
+        } else {
+            throw new BadRequestException(
+                    String.format(
+                            "Order [%d] is not in correct status and can not be manually approved",
+                            orderId));
+        }
+    }
+
+    @Override
+    public void delivered(Long orderId, LocalDateTime deliveredTime) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        if (order.getStatus() == OrderStatus.IN_DELIVERY) {
+            order.setStatus(OrderStatus.DELIVERED);
+            order.setLastModified(LocalDateTime.now());
+            order.setDeliveredTime(deliveredTime);
             orderRepository.save(order);
         } else {
             throw new BadRequestException(

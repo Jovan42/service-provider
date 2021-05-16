@@ -10,7 +10,8 @@ CREATE TABLE orders (
     `cancel_reason` varchar(255),
     `user_id` bigint,
     `account_id` bigint,
-    `preparation_time_in_minutes` bigint default 0
+    `preparation_time_in_minutes` bigint default 0,
+    `delivered_time` datetime
 );
 
 CREATE TABLE bought_item (

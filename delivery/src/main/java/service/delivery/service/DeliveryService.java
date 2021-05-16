@@ -12,4 +12,6 @@ public interface DeliveryService {
     DeliveryResponse pickUp(Long deliveryId);
 
     DeliveryResponse getByOrderId(Long orderId);
+
+    DeliveryResponse deliver(Long deliveryId);
 }

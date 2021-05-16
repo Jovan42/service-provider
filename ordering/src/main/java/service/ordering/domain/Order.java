@@ -6,6 +6,7 @@ import service.ordering.domain.enums.OrderStatus;
 import service.sharedlib.domain.BaseEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,8 @@ public class Order extends BaseEntity {
     private Long userId;
     private Long accountId;
     private Long preparationTimeInMinutes;
+    private LocalDateTime deliveredTime;
+
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<BoughtItem> boughtItems;
 }

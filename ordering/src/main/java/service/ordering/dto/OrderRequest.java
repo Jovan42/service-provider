@@ -11,13 +11,8 @@ import java.util.List;
 @Setter
 public class OrderRequest {
     private Long id;
-    @NotNull
-    private Long serviceProviderId;
-    @NotNull
-    @NotEmpty
-    List<BoughtItemRequest> boughtItems;
-    @NotNull
-    private Integer userId;
-    @NotNull
-    private Integer accountId;
+    @NotNull private Long serviceProviderId;
+    @NotNull @NotEmpty List<BoughtItemRequest> boughtItems;
+    @NotNull private Integer userId;
+    @NotNull private Integer accountId;
 }

@@ -16,5 +16,4 @@ public class OrderingApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
 }

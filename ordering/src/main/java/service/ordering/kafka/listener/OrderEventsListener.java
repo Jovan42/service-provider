@@ -17,19 +17,24 @@ public class OrderEventsListener {
     }
 
     @KafkaHandler()
-    public void listenOrderRequestDeclinedEvent(@Payload OrderRequestDeclinedEvent orderRequestDeclinedEvent) {
-        orderService.invalidateRequest(orderRequestDeclinedEvent.getOrderId(), orderRequestDeclinedEvent.getReason());
+    public void listenOrderRequestDeclinedEvent(
+            @Payload OrderRequestDeclinedEvent orderRequestDeclinedEvent) {
+        orderService.invalidateRequest(
+                orderRequestDeclinedEvent.getOrderId(), orderRequestDeclinedEvent.getReason());
     }
 
     @KafkaHandler()
-    public void listenOrderItemsApprovedEvent(@Payload OrderItemsApprovedEvent orderItemsApprovedEvent) {
-        orderService.orderItemsApproved(orderItemsApprovedEvent.getOrderId(),
+    public void listenOrderItemsApprovedEvent(
+            @Payload OrderItemsApprovedEvent orderItemsApprovedEvent) {
+        orderService.orderItemsApproved(
+                orderItemsApprovedEvent.getOrderId(),
                 orderItemsApprovedEvent.getManualApprovalRequired(),
                 orderItemsApprovedEvent.getOrderItems());
     }
 
     @KafkaHandler()
-    public void listenAccountValidationFinishedEvent(@Payload AccountValidationFinishedEvent accountValidationFinishedEvent) {
+    public void listenAccountValidationFinishedEvent(
+            @Payload AccountValidationFinishedEvent accountValidationFinishedEvent) {
         orderService.accountApproved(accountValidationFinishedEvent.getOrderId());
     }
 
@@ -38,9 +43,14 @@ public class OrderEventsListener {
         orderService.inDelivery(orderPickedUpEvent.getOrderId());
     }
 
+    @KafkaHandler()
+    public void listenOrderDeliveredEvent(@Payload OrderDeliveredEvent orderDeliveredEvent) {
+        orderService.delivered(
+                orderDeliveredEvent.getOrderId(), orderDeliveredEvent.getDeliveredTime());
+    }
+
     @KafkaHandler(isDefault = true)
     public void listenObject(@Payload BaseEvent baseEvent) {
         System.out.println("Received object: " + baseEvent);
     }
-
 }

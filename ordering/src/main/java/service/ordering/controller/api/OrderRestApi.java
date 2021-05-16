@@ -29,6 +29,5 @@ public interface OrderRestApi {
 
     @PutMapping("/{orderId}/finishPreparation")
     @ApiOperation(value = "Finish Order Preparation")
-    ResponseEntity<OrderResponse> finishPreparation(
-            @PathVariable Long orderId);
+    ResponseEntity<OrderResponse> finishPreparation(@PathVariable Long orderId);
 }

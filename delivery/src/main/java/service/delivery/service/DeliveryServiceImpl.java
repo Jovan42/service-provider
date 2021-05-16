@@ -11,6 +11,7 @@ import service.delivery.dto.DeliveryResponse;
 import service.delivery.repository.DeliveryManRepository;
 import service.delivery.repository.DeliveryRepository;
 import service.sharedlib.events.BaseEvent;
+import service.sharedlib.events.OrderDeliveredEvent;
 import service.sharedlib.events.OrderPickedUpEvent;
 import service.sharedlib.exceptions.BadRequestException;
 import service.sharedlib.exceptions.NotFoundException;
@@ -68,6 +69,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public DeliveryResponse pickUp(Long deliveryId) {
         Delivery delivery =
                 deliveryRepository.findById(deliveryId).orElseThrow(NotFoundException::new);
+
         checkPreconditionsFroPickUp(delivery);
         delivery.setStatus(DeliveryStatus.ON_THE_WAY);
         delivery.setLastModified(LocalDateTime.now());
@@ -86,6 +88,26 @@ public class DeliveryServiceImpl implements DeliveryService {
                 deliveryRepository.findByOrderId(orderId).orElseThrow(NotFoundException::new));
     }
 
+    @Override
+    public DeliveryResponse deliver(Long deliveryId) {
+        Delivery delivery =
+                deliveryRepository.findById(deliveryId).orElseThrow(NotFoundException::new);
+
+        checkPreconditionsFroDeliver(delivery);
+        delivery.setStatus(DeliveryStatus.FINISHED);
+        delivery.setLastModified(LocalDateTime.now());
+        Delivery savedDelivery = deliveryRepository.save(delivery);
+        kafkaTemplate.send(
+                "orderTopic",
+                "",
+                OrderDeliveredEvent.builder()
+                        .orderId(savedDelivery.getOrderId())
+                        .deliveredTime(LocalDateTime.now())
+                        .build());
+
+        return deliveryMapper.map(savedDelivery);
+    }
+
     private void checkPreconditionsFroPickUp(Delivery delivery) {
         if (delivery.getDeliveryMan() == null) {
             throw new BadRequestException(
@@ -93,6 +115,15 @@ public class DeliveryServiceImpl implements DeliveryService {
                             "Delivery [%d] does not have assigned delivery man and can not be picked up",
                             delivery.getId()));
         } else if (delivery.getStatus() != DeliveryStatus.READY_TO_PICK_UP) {
+            throw new BadRequestException(
+                    String.format(
+                            "Delivery [%d] is not in correct status and can not be picked up",
+                            delivery.getId()));
+        }
+    }
+
+    private void checkPreconditionsFroDeliver(Delivery delivery) {
+        if (delivery.getStatus() != DeliveryStatus.ON_THE_WAY) {
             throw new BadRequestException(
                     String.format(
                             "Delivery [%d] is not in correct status and can not be picked up",
