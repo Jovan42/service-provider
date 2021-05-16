@@ -37,4 +37,8 @@ public class OrderController implements OrderRestApi {
                 HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<OrderResponse> finishPreparation(Long orderId) {
+        return new ResponseEntity<>(orderService.finishPreparation(orderId), HttpStatus.OK);
+    }
 }

@@ -26,4 +26,9 @@ public interface OrderRestApi {
     ResponseEntity<OrderResponse> startPreparation(
             @PathVariable Long orderId,
             @RequestBody StartOrderPreparationRequest startOrderPreparationRequest);
+
+    @PutMapping("/{orderId}/finishPreparation")
+    @ApiOperation(value = "Finish Order Preparation")
+    ResponseEntity<OrderResponse> finishPreparation(
+            @PathVariable Long orderId);
 }

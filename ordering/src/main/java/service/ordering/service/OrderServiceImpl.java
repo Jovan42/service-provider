@@ -9,10 +9,7 @@ import service.ordering.domain.enums.OrderStatus;
 import service.ordering.dto.OrderRequest;
 import service.ordering.dto.OrderResponse;
 import service.ordering.repostiroy.OrderRepository;
-import service.sharedlib.events.BaseEvent;
-import service.sharedlib.events.OrderCreatedEvent;
-import service.sharedlib.events.OrderInPreparationEvent;
-import service.sharedlib.events.ServiceProviderValidationFinishedEvent;
+import service.sharedlib.events.*;
 import service.sharedlib.events.pojo.OrderItem;
 import service.sharedlib.exceptions.BadRequestException;
 import service.sharedlib.exceptions.NotFoundException;
@@ -161,6 +158,43 @@ public class OrderServiceImpl implements OrderService {
                             .serviceProviderId(order.getServiceProviderId())
                             .build());
             return modelMapper.map(savedOrder, OrderResponse.class);
+        } else {
+            throw new BadRequestException(
+                    String.format(
+                            "Order [%d] is not in correct status and can not be manually approved",
+                            orderId));
+        }
+    }
+
+    @Override
+    public OrderResponse finishPreparation(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        if (order.getStatus() == OrderStatus.IN_PREPARATION) {
+            order.setStatus(OrderStatus.PREPARED);
+            order.setLastModified(LocalDateTime.now());
+            Order savedOrder = orderRepository.save(order);
+            kafkaTemplate.send(
+                    "orderTopic",
+                    "",
+                    OrderPreparationFinishedEvent.builder()
+                            .orderId(orderId)
+                            .build());
+            return modelMapper.map(savedOrder, OrderResponse.class);
+        } else {
+            throw new BadRequestException(
+                    String.format(
+                            "Order [%d] is not in correct status and can not be manually approved",
+                            orderId));
+        }
+    }
+
+    @Override
+    public void inDelivery(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        if (order.getStatus() == OrderStatus.PREPARED) {
+            order.setStatus(OrderStatus.IN_DELIVERY);
+            order.setLastModified(LocalDateTime.now());
+            orderRepository.save(order);
         } else {
             throw new BadRequestException(
                     String.format(

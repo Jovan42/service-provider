@@ -5,10 +5,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import service.ordering.service.OrderService;
-import service.sharedlib.events.AccountValidationFinishedEvent;
-import service.sharedlib.events.BaseEvent;
-import service.sharedlib.events.OrderItemsApprovedEvent;
-import service.sharedlib.events.OrderRequestDeclinedEvent;
+import service.sharedlib.events.*;
 
 @Component
 @KafkaListener(topics = "orderTopic", groupId = "ordering-service")
@@ -20,20 +17,25 @@ public class OrderEventsListener {
     }
 
     @KafkaHandler()
-    public void listenOrderCreatedEvent(@Payload OrderRequestDeclinedEvent orderRequestDeclinedEvent) {
+    public void listenOrderRequestDeclinedEvent(@Payload OrderRequestDeclinedEvent orderRequestDeclinedEvent) {
         orderService.invalidateRequest(orderRequestDeclinedEvent.getOrderId(), orderRequestDeclinedEvent.getReason());
     }
 
     @KafkaHandler()
-    public void listenOrderCreatedEvent(@Payload OrderItemsApprovedEvent orderItemsApprovedEvent) {
+    public void listenOrderItemsApprovedEvent(@Payload OrderItemsApprovedEvent orderItemsApprovedEvent) {
         orderService.orderItemsApproved(orderItemsApprovedEvent.getOrderId(),
                 orderItemsApprovedEvent.getManualApprovalRequired(),
                 orderItemsApprovedEvent.getOrderItems());
     }
 
     @KafkaHandler()
-    public void listenOrderCreatedEvent(@Payload AccountValidationFinishedEvent accountValidationFinishedEvent) {
+    public void listenAccountValidationFinishedEvent(@Payload AccountValidationFinishedEvent accountValidationFinishedEvent) {
         orderService.accountApproved(accountValidationFinishedEvent.getOrderId());
+    }
+
+    @KafkaHandler()
+    public void listenOrderPickedUpEvent(@Payload OrderPickedUpEvent orderPickedUpEvent) {
+        orderService.inDelivery(orderPickedUpEvent.getOrderId());
     }
 
     @KafkaHandler(isDefault = true)

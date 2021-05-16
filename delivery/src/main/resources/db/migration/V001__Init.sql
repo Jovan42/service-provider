@@ -17,7 +17,7 @@ CREATE TABLE delivery_man (
     `first_name` varchar(255),
     `last_name` varchar(255),
     `service_provider_id` bigint,
-    `status` int,
+    `status` varchar(255),
     `contact_information_id` bigint default 0,
     FOREIGN KEY (contact_information_id) REFERENCES contact_information(id)
 
@@ -28,7 +28,7 @@ CREATE TABLE delivery (
     `created_time` datetime,
     `last_modified` datetime,
     `deleted` bit,
-    `status` int,
+    `status` varchar(255),
     `delivery_man_id` bigint,
     `service_provider_id` bigint,
     `preparation_time_in_minutes` bigint default 0,

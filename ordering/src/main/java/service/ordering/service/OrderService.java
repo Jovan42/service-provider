@@ -16,4 +16,6 @@ public interface OrderService {
     OrderResponse manuallyApprove(Long orderId);
     void accountApproved(Long orderId);
     OrderResponse startPreparation(Long orderId, Long preparationTimeInMinutes);
+    OrderResponse finishPreparation(Long orderId);
+    void inDelivery(Long orderId);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import service.delivery.service.DeliveryService;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderInPreparationEvent;
+import service.sharedlib.events.OrderPreparationFinishedEvent;
 
 @Component
 @KafkaListener(topics = "orderTopic", groupId = "delivery-service")
@@ -30,5 +31,11 @@ public class OrderEventsListener {
                 orderInPreparationEvent.getOrderId(),
                 orderInPreparationEvent.getPreparationTimeInMinutes(),
                 orderInPreparationEvent.getServiceProviderId());
+    }
+
+    @KafkaHandler()
+    public void listenOrderPreparationFinished(
+            @Payload OrderPreparationFinishedEvent orderInPreparationEvent) {
+        deliveryService.readyToPickUp(orderInPreparationEvent.getOrderId());
     }
 }

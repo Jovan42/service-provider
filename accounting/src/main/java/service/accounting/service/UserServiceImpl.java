@@ -2,7 +2,6 @@ package service.accounting.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import service.accounting.domain.User;
 import service.accounting.dto.UserCreateRequest;
@@ -10,7 +9,6 @@ import service.accounting.dto.UserEditRequest;
 import service.accounting.dto.UserResponse;
 import service.accounting.repository.UserRepository;
 import service.sharedlib.dto.CustomPage;
-import service.sharedlib.events.BaseEvent;
 import service.sharedlib.exceptions.BadRequestException;
 import service.sharedlib.exceptions.NotFoundException;
 
@@ -22,15 +20,12 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
-    private final KafkaTemplate<String, BaseEvent> kafkaTemplate;
 
     public UserServiceImpl(
             ModelMapper modelMapper,
-            UserRepository userRepository,
-            KafkaTemplate<String, BaseEvent> kafkaTemplate) {
+            UserRepository userRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
-        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
