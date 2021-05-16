@@ -1,18 +1,18 @@
 package service.delivery.service;
 
-import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import service.delivery.domain.Delivery;
 import service.delivery.domain.DeliveryMan;
-import service.delivery.domain.enums.DeliveryManStatus;
 import service.delivery.domain.enums.DeliveryStatus;
 import service.delivery.dto.DeliveryResponse;
 import service.delivery.repository.DeliveryManRepository;
 import service.delivery.repository.DeliveryRepository;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderPickedUpEvent;
+import service.sharedlib.exceptions.BadRequestException;
 import service.sharedlib.exceptions.NotFoundException;
 
 import java.time.LocalDateTime;
@@ -24,17 +24,17 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
     private final DeliveryManRepository deliveryManRepository;
     private final KafkaTemplate<String, BaseEvent> kafkaTemplate;
-    private final ModelMapper modelMapper;
+    private final TypeMap<Delivery, DeliveryResponse> deliveryMapper;
 
     public DeliveryServiceImpl(
             DeliveryRepository deliveryRepository,
             DeliveryManRepository deliveryManRepository,
             KafkaTemplate<String, BaseEvent> kafkaTemplate,
-            ModelMapper modelMapper) {
+            TypeMap<Delivery, DeliveryResponse> deliveryMapper) {
         this.deliveryRepository = deliveryRepository;
         this.deliveryManRepository = deliveryManRepository;
         this.kafkaTemplate = kafkaTemplate;
-        this.modelMapper = modelMapper;
+        this.deliveryMapper = deliveryMapper;
     }
 
     @Override
@@ -68,6 +68,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public DeliveryResponse pickUp(Long deliveryId) {
         Delivery delivery =
                 deliveryRepository.findById(deliveryId).orElseThrow(NotFoundException::new);
+        checkPreconditionsFroPickUp(delivery);
         delivery.setStatus(DeliveryStatus.ON_THE_WAY);
         delivery.setLastModified(LocalDateTime.now());
         Delivery savedDelivery = deliveryRepository.save(delivery);
@@ -75,7 +76,28 @@ public class DeliveryServiceImpl implements DeliveryService {
                 "orderTopic",
                 "",
                 OrderPickedUpEvent.builder().orderId(savedDelivery.getOrderId()).build());
-        return modelMapper.map(savedDelivery, DeliveryResponse.class);
+
+        return deliveryMapper.map(savedDelivery);
+    }
+
+    @Override
+    public DeliveryResponse getByOrderId(Long orderId) {
+        return deliveryMapper.map(
+                deliveryRepository.findByOrderId(orderId).orElseThrow(NotFoundException::new));
+    }
+
+    private void checkPreconditionsFroPickUp(Delivery delivery) {
+        if (delivery.getDeliveryMan() == null) {
+            throw new BadRequestException(
+                    String.format(
+                            "Delivery [%d] does not have assigned delivery man and can not be picked up",
+                            delivery.getId()));
+        } else if (delivery.getStatus() != DeliveryStatus.READY_TO_PICK_UP) {
+            throw new BadRequestException(
+                    String.format(
+                            "Delivery [%d] is not in correct status and can not be picked up",
+                            delivery.getId()));
+        }
     }
 
     // Checking if there is any pending delivery and assign available deliveryman to them.
@@ -97,10 +119,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     private Optional<DeliveryMan> findAvailableDeliveryMan(Long serviceProviderId) {
-        List<DeliveryMan> availableForDelivery = deliveryManRepository
-                .findAvailableForDelivery(serviceProviderId);
-        return availableForDelivery
-                .stream()
-                .findAny();
+        List<DeliveryMan> availableForDelivery =
+                deliveryManRepository.findAvailableForDelivery(serviceProviderId);
+        return availableForDelivery.stream().findAny();
     }
 }

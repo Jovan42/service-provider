@@ -14,11 +14,13 @@ import java.util.List;
 public class DeliveryMan extends BaseEntity {
     private String firstName;
     private String lastName;
+
     @Enumerated(EnumType.STRING)
     private DeliveryManStatus status;
-    @OneToOne
-    private ContactInformation contactInformation;
+
+    @OneToOne private ContactInformation contactInformation;
     private Long serviceProviderId;
+
     @OneToMany(mappedBy = "deliveryMan", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Delivery> deliveries;
 }

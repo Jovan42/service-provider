@@ -5,9 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import service.accounting.dto.UserCreateRequest;
-import service.accounting.dto.UserEditRequest;
-import service.accounting.dto.UserResponse;
+import service.accounting.dto.*;
 import service.sharedlib.dto.CustomPage;
 
 @Api
@@ -31,4 +29,9 @@ public interface UserRestApi {
     @ApiOperation(value = "Update User")
     ResponseEntity<UserResponse> update(
             @PathVariable Long userId, @Validated @RequestBody UserEditRequest userRequest);
+
+    @PostMapping("/{userId}/account")
+    @ApiOperation(value = "Add account to User")
+    ResponseEntity<AccountResponse> addAccount(
+            @PathVariable Long userId, @Validated @RequestBody AccountRequest accountRequest);
 }

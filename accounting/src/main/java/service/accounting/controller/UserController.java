@@ -5,18 +5,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import service.accounting.controller.api.UserRestApi;
-import service.accounting.dto.UserCreateRequest;
-import service.accounting.dto.UserEditRequest;
-import service.accounting.dto.UserResponse;
+import service.accounting.dto.*;
+import service.accounting.repository.AccountRepository;
+import service.accounting.service.AccountService;
 import service.accounting.service.UserService;
 import service.sharedlib.dto.CustomPage;
 
 @Controller
 public class UserController implements UserRestApi {
     private final UserService userService;
+    private final AccountService accountService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,AccountService accountService) {
         this.userService = userService;
+        this.accountService = accountService;
     }
 
     @Override
@@ -38,5 +40,10 @@ public class UserController implements UserRestApi {
     @Override
     public ResponseEntity<UserResponse> update(Long userId, UserEditRequest userRequest) {
         return new ResponseEntity<>(userService.update(userId, userRequest), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<AccountResponse> addAccount(Long userId, AccountRequest accountRequest) {
+        return new ResponseEntity<>(accountService.addAccount(userId, accountRequest), HttpStatus.OK);
     }
 }

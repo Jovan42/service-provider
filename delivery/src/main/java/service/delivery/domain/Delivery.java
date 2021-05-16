@@ -15,10 +15,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Delivery extends BaseEntity {
     private Long orderId;
+
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
+
     private Long serviceProviderId;
     private Long preparationTimeInMinutes;
-    @ManyToOne
-    private DeliveryMan deliveryMan;
+    @ManyToOne private DeliveryMan deliveryMan;
 }

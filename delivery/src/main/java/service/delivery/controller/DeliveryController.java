@@ -20,4 +20,9 @@ public class DeliveryController implements DeliveryRestApi {
     public ResponseEntity<DeliveryResponse> pickUp(Long deliveryId) {
         return new ResponseEntity<>(deliveryService.pickUp(deliveryId), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<DeliveryResponse> getByOrderId(Long orderId) {
+        return new ResponseEntity<>(deliveryService.getByOrderId(orderId), HttpStatus.OK);
+    }
 }
