@@ -19,6 +19,11 @@ public class OrderController implements OrderRestApi {
     }
 
     @Override
+    public ResponseEntity<OrderResponse> getOrderById(Long orderId) {
+        return new ResponseEntity<>(orderService.getOrderById(orderId), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<OrderResponse> create(OrderRequest orderRequest) {
         return new ResponseEntity<>(orderService.create(orderRequest), HttpStatus.CREATED);
     }
@@ -41,4 +46,6 @@ public class OrderController implements OrderRestApi {
     public ResponseEntity<OrderResponse> finishPreparation(Long orderId) {
         return new ResponseEntity<>(orderService.finishPreparation(orderId), HttpStatus.OK);
     }
+
+
 }

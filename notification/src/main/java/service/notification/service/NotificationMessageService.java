@@ -5,5 +5,6 @@ import service.notification.dto.Message;
 
 @Service
 public interface NotificationMessageService {
-    void sendMessage(Message message);
+    void sendNotification(Message message);
+    void sendMail(Message message);
 }

@@ -29,4 +29,6 @@ public interface OrderService {
     void inDelivery(Long orderId);
 
     void delivered(Long orderId, LocalDateTime deliveredTime);
+
+    OrderResponse getOrderById(Long orderId);
 }

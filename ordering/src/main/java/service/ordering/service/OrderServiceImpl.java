@@ -217,6 +217,11 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public OrderResponse getOrderById(Long orderId) {
+        return modelMapper.map(orderRepository.findById(orderId).orElseThrow(NotFoundException::new), OrderResponse.class);
+    }
+
     private Double calculatePrice(List<BoughtItem> boughtItems) {
         return boughtItems.stream()
                 .mapToDouble(

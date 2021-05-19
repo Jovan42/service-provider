@@ -23,12 +23,14 @@ public class OrderEventsListener {
     @KafkaHandler()
     public void listenOrderDeliveredEvent(
             @Payload OrderRequestDeclinedEvent orderRequestDeclinedEvent) {
-        notificationMessageService.sendMessage(Message.of(orderRequestDeclinedEvent));
+        notificationMessageService.sendNotification(Message.of(orderRequestDeclinedEvent));
     }
 
     @KafkaHandler()
     public void listenOrderDeliveredEvent(@Payload OrderCreatedEvent orderCreatedEvent) {
-        notificationMessageService.sendMessage(Message.of(orderCreatedEvent));
+        Message message = Message.of(orderCreatedEvent);
+        notificationMessageService.sendNotification(message);
+        notificationMessageService.sendMail(message);
     }
 
     @KafkaHandler(isDefault = true)

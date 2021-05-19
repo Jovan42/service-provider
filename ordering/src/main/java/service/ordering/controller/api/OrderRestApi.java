@@ -13,6 +13,10 @@ import service.ordering.dto.StartOrderPreparationRequest;
 @RequestMapping("orders")
 public interface OrderRestApi {
 
+    @GetMapping("/{orderId}")
+    @ApiOperation(value = "Get order by id")
+    ResponseEntity<OrderResponse> getOrderById(@PathVariable Long orderId);
+
     @PostMapping("")
     @ApiOperation(value = "Create new Order")
     ResponseEntity<OrderResponse> create(@Validated @RequestBody OrderRequest orderRequest);
