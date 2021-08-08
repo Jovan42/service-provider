@@ -1,0 +1,24 @@
+<div style="margin: 3%">
+  <mat-expansion-panel style="margin-top: 1%"  *ngFor="let part of menu">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{part.name}}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{part.description}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="item" *ngFor="let item of part.menuItems" (click)="itemSelected(item)">
+      <div fxFlex="80">
+        <h2>
+          {{item.name}}
+        </h2>
+
+        <h5>{{item.price}}</h5>
+      </div>
+      <div fxFlex="20">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Palatschinke.jpg/250px-Palatschinke.jpg">
+      </div>
+    </div>
+  </mat-expansion-panel>
+</div>

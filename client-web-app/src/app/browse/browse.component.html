@@ -1,0 +1,19 @@
+<div fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="center center">
+  <mat-card style="margin: 2em" class="example-card" fxFlex="20" *ngFor="let serviceProvider of serviceProviders">
+    <mat-card-header>
+      <div mat-card-avatar> <mat-icon>business</mat-icon></div>
+      <mat-card-title>{{serviceProvider.name}}</mat-card-title>
+      <mat-card-subtitle>{{serviceProvider.address}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content cdk-scrollable style="height: 150px; overflow-y: scroll;">
+      <p fxFlex="100">
+        {{serviceProvider.description}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions  fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="accent" routerLink="/browse/{{serviceProvider.id}}">
+         Select
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,19 @@
+<h1>Add Menu Group</h1>
+<mat-dialog-content >
+  <form fxFlex="100" fxLayout="row wrap"  fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
+    <mat-form-field fxFlex="30" appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)]="menuPart.name" name="menuPartName">
+    </mat-form-field>
+    <mat-form-field fxFlex="30" appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="menuPart.description" name="menuPartDescription">
+    </mat-form-field>
+    <div fxFlex="10" >
+      <button mat-raised-button color="accent">
+        <mat-icon color="primary" aria-hidden="false">save</mat-icon>Save
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>
+

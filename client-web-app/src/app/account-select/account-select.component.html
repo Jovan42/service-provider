@@ -1,0 +1,21 @@
+<h1>Checkout</h1>
+<mat-dialog-content fxLayout="column" fxLayoutAlign="space-around">
+  <mat-card class="example-card" fxFlex="100" *ngFor="let item of items">
+    <mat-card-header>
+      <mat-card-title>{{item.item.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h5>Amount: {{item.amount}}</h5>
+      <h5>Price: {{item.amount * item.item.price}}</h5>
+    </mat-card-content>
+  </mat-card>
+  <h2>In total: {{calculateTotal()}}</h2>
+  <mat-form-field fxFlex="30" appearance="fill">
+    <mat-label>Select account</mat-label>
+    <mat-select  [(ngModel)]="selectedAccount">
+      <mat-option *ngFor="let account of accounts" value="{{account.id}}">{{account.accountNumber}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+    <button mat-flat-button color="primary" [disabled]="!selectedAccount" (click)="makeOrder()"><mat-icon>paid</mat-icon>Ordert</button>
+</mat-dialog-content>
+

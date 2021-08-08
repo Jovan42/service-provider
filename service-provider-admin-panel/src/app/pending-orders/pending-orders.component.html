@@ -1,0 +1,68 @@
+<button mat-raised-button color="accent" (click)="loadData()">
+  <mat-icon color="primary" aria-hidden="false">refresh</mat-icon>
+  Reload
+</button>
+<mat-tab-group>
+  <mat-tab label="Approval">
+    <mat-expansion-panel *ngFor="let order of approvalOrders" (afterExpand)="getItems(order)">
+      <mat-expansion-panel-header>
+        Price: {{calculatePrice(order)}} for user: {{order.userId}}
+      </mat-expansion-panel-header>
+      <h3 *ngFor="let item of order.boughtItems">
+        <b>{{getItemName(item.menuItemId)}}</b> x {{item.amount}}
+      </h3>
+      <button mat-raised-button class="add" color="accent" (click)="approveOrder(order)">
+        <mat-icon color="primary" aria-hidden="false">check_circle</mat-icon>
+        Approve
+      </button>
+      <button class="delete" mat-raised-button color="accent" (click)="abort(order)">
+        <mat-icon color="primary" aria-hidden="false">cancel</mat-icon>
+        Decline
+      </button>
+    </mat-expansion-panel>
+  </mat-tab>
+  <mat-tab label="Preparation start">
+    <mat-expansion-panel *ngFor="let order of preparationStartOrders" (afterExpand)="getItems(order)">
+      <mat-expansion-panel-header>
+        Price: {{calculatePrice(order)}} for user: {{order.userId}}
+      </mat-expansion-panel-header>
+      <div  fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp">
+        <h3 *ngFor="let item of order.boughtItems">
+          <b>{{getItemName(item.menuItemId)}}</b> x {{item.amount}}
+        </h3>
+        <div fxFlex="100">
+          <mat-form-field fxFlex="10">
+            <mat-label>Estimated time</mat-label>
+            <input type="number" [(ngModel)]="estimatedTime[order.id]" matInput name="groupName">
+          </mat-form-field>
+          <button mat-raised-button class="add" color="accent" (click)="startOrderPreparation(order)">
+            <mat-icon color="primary" aria-hidden="false">check_circle</mat-icon>
+            Start
+          </button>
+          <button class="delete" mat-raised-button color="accent" (click)="abort(order)">
+            <mat-icon color="primary" aria-hidden="false">cancel</mat-icon>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-tab>
+  <mat-tab label="Preparation finish">
+    <mat-expansion-panel *ngFor="let order of preparationFinishOrders" (afterExpand)="getItems(order)">
+      <mat-expansion-panel-header>
+        Price: {{calculatePrice(order)}} for user: {{order.userId}}
+      </mat-expansion-panel-header>
+      <h3 *ngFor="let item of order.boughtItems">
+        <b>{{getItemName(item.menuItemId)}}</b> x {{item.amount}}
+      </h3>
+      <button mat-raised-button class="add" color="accent" (click)="startFinishPreparation(order)">
+        <mat-icon color="primary" aria-hidden="false">check_circle</mat-icon>
+        Approve
+      </button>
+      <button class="delete" mat-raised-button color="accent"  (click)="abort(order)">
+        <mat-icon color="primary" aria-hidden="false">cancel</mat-icon>
+        Cancel
+      </button>
+    </mat-expansion-panel>
+  </mat-tab>
+</mat-tab-group>

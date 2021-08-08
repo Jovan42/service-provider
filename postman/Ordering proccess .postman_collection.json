@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "19d10b15-40a8-47b4-b333-4153b73c2054",
+		"name": "Ordering proccess ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"pm.environment.set('order_id', responseJson.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"serviceProviderId\": {{service_provider_id}},\r\n    \"boughtItems\": [\r\n        {\r\n            \"menuItemId\": {{menu_item0.id}},\r\n            \"currentPricePerUnit\": {{menu_item0.price}},\r\n            \"amount\": 1\r\n        },\r\n            {\r\n            \"menuItemId\": {{menu_item1.id}},\r\n            \"currentPricePerUnit\": {{menu_item1.price}},\r\n            \"amount\": 2\r\n        }\r\n    ],\r\n    \"userId\": {{user_id}},\r\n    \"accountId\": {{account_id}}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Manually Approve",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"preparationTimeInMinutes\" : 50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/orders/{{order_id}}/manuallyApprove",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"orders",
+						"{{order_id}}",
+						"manuallyApprove"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Preparation",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"preparationTimeInMinutes\" : 50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/orders/{{order_id}}/startPreparation",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"orders",
+						"{{order_id}}",
+						"startPreparation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finish Preparation",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/orders/{{order_id}}/finishPreparation",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"orders",
+						"{{order_id}}",
+						"finishPreparation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pick up delivery Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseJson = pm.response.json();\r",
+							"pm.environment.set('delivery_id', responseJson.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8093/deliveries/getByOrderId/{{order_id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "8093",
+					"path": [
+						"deliveries",
+						"getByOrderId",
+						"{{order_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pick up delivery",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8093/deliveries/{{delivery_id}}/pickUp",
+					"host": [
+						"localhost"
+					],
+					"port": "8093",
+					"path": [
+						"deliveries",
+						"{{delivery_id}}",
+						"pickUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delivery finished",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8093/deliveries/{{delivery_id}}/pickUp",
+					"host": [
+						"localhost"
+					],
+					"port": "8093",
+					"path": [
+						"deliveries",
+						"{{delivery_id}}",
+						"pickUp"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
