@@ -1,0 +1,27 @@
+<button mat-raised-button color="accent" (click)="loadData()">
+  <mat-icon color="primary" aria-hidden="false">refresh</mat-icon>
+</button>
+<mat-tab-group>
+  <mat-tab label="Waiting to pick up">
+    <mat-expansion-panel *ngFor="let delivery of waitingToPickUp">
+      <mat-expansion-panel-header>
+        By {{delivery.deliveryManId}}
+      </mat-expansion-panel-header>
+      <button mat-raised-button class="add" color="accent" (click)="pickUp(delivery)">
+        <mat-icon color="primary" aria-hidden="false">check_circle</mat-icon>
+        Pick Up
+      </button>
+    </mat-expansion-panel>
+  </mat-tab>
+  <mat-tab label="Waiting to be delivered">
+    <mat-expansion-panel *ngFor="let delivery of waitingToBeDelivered">
+      <mat-expansion-panel-header>
+        By {{delivery.deliveryManId}}
+      </mat-expansion-panel-header>
+      <button mat-raised-button class="add" color="accent" (click)="deliver(delivery)">
+        <mat-icon color="primary" aria-hidden="false">check_circle</mat-icon>
+        Deliver
+      </button>
+    </mat-expansion-panel>
+  </mat-tab>
+</mat-tab-group>
