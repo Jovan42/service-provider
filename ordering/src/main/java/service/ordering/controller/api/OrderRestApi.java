@@ -5,9 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import service.ordering.domain.enums.OrderStatus;
 import service.ordering.dto.OrderRequest;
 import service.ordering.dto.OrderResponse;
 import service.ordering.dto.StartOrderPreparationRequest;
+
+import java.util.List;
 
 @Api
 @RequestMapping("orders")
@@ -16,6 +19,10 @@ public interface OrderRestApi {
     @GetMapping("/{orderId}")
     @ApiOperation(value = "Get order by id")
     ResponseEntity<OrderResponse> getOrderById(@PathVariable Long orderId);
+
+    @GetMapping("/status")
+    @ApiOperation(value = "Get all pending orders")
+    ResponseEntity<List<OrderResponse>> getAllByStatus(@RequestParam OrderStatus status);
 
     @PostMapping("")
     @ApiOperation(value = "Create new Order")
@@ -34,4 +41,9 @@ public interface OrderRestApi {
     @PutMapping("/{orderId}/finishPreparation")
     @ApiOperation(value = "Finish Order Preparation")
     ResponseEntity<OrderResponse> finishPreparation(@PathVariable Long orderId);
+
+    @PutMapping("/{orderId}/abort")
+    @ApiOperation(value = "Finish Order Preparation")
+    ResponseEntity<OrderResponse> abort(@PathVariable Long orderId);
+
 }

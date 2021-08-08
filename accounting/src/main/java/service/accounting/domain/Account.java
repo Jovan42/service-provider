@@ -15,8 +15,7 @@ public class Account extends BaseEntity {
     private String accountNumber;
     private AccountStatus status;
     private Double balance;
-    @ManyToOne
-    private User user;
+    private String userId;
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 

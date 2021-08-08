@@ -21,7 +21,7 @@ public interface DeliveryRestApi {
     @ApiOperation(value = "Get delivery by order id")
     ResponseEntity<DeliveryResponse> getByOrderId(@PathVariable Long orderId);
 
-    @PutMapping("/{deliveryId}/deliver")
+    @PutMapping("/{deliveryId}/delivery")
     @ApiOperation(value = "Finish delivery")
     ResponseEntity<DeliveryResponse> deliver(@PathVariable Long deliveryId);
 }

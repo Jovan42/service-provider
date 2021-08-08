@@ -6,32 +6,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import service.accounting.dto.*;
-import service.sharedlib.dto.CustomPage;
+
+import javax.annotation.security.RolesAllowed;
+import java.util.List;
 
 @Api
-@RequestMapping("users")
+@RequestMapping("")
 public interface UserRestApi {
-    @GetMapping("")
-    @ApiOperation(value = "Search User")
-    ResponseEntity<CustomPage<UserResponse>> search(
-            @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer pageSize);
-
-    @GetMapping("/{userId}")
-    @ApiOperation(value = "Get User by ID")
-    ResponseEntity<UserResponse> getById(@PathVariable Long userId);
-
-    @PostMapping("")
-    @ApiOperation(value = "Create new User")
-    ResponseEntity<UserResponse> create(@Validated @RequestBody UserCreateRequest userRequest);
-
-    @PutMapping("/{userId}")
-    @ApiOperation(value = "Update User")
-    ResponseEntity<UserResponse> update(
-            @PathVariable Long userId, @Validated @RequestBody UserEditRequest userRequest);
-
-    @PostMapping("/{userId}/account")
+    @PostMapping("users/{userId}/account")
     @ApiOperation(value = "Add account to User")
     ResponseEntity<AccountResponse> addAccount(
-            @PathVariable Long userId, @Validated @RequestBody AccountRequest accountRequest);
+            @PathVariable String userId, @Validated @RequestBody AccountRequest accountRequest);
+
+    @GetMapping("/accounts")
+    @ApiOperation(value = "Add account to User")
+    @RolesAllowed("manage-account")
+    ResponseEntity<List<AccountResponse>> getAccountsForCurrentUser();
 }

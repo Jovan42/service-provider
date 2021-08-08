@@ -1,12 +1,14 @@
 package service.ordering.service;
 
 import org.springframework.stereotype.Service;
+import service.ordering.domain.enums.OrderStatus;
 import service.ordering.dto.OrderRequest;
 import service.ordering.dto.OrderResponse;
 import service.sharedlib.events.pojo.OrderItem;
 import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -31,4 +33,8 @@ public interface OrderService {
     void delivered(Long orderId, LocalDateTime deliveredTime);
 
     OrderResponse getOrderById(Long orderId);
+
+    List<OrderResponse> getAllByStatus(OrderStatus status);
+
+    OrderResponse abort(Long orderId);
 }

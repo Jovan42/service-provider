@@ -8,6 +8,8 @@ import service.delivery.dto.DeliveryManRequest;
 import service.delivery.dto.DeliveryManResponse;
 import service.delivery.service.DeliveryManService;
 
+import java.util.List;
+
 @Controller
 public class DeliveryManController implements DeliveryManRestApi {
 
@@ -22,5 +24,11 @@ public class DeliveryManController implements DeliveryManRestApi {
             DeliveryManRequest deliveryManRequest) {
         return new ResponseEntity<>(
                 deliveryManService.create(deliveryManRequest), HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<List<DeliveryManResponse>> getAll() {
+        return new ResponseEntity<>(
+                deliveryManService.getAll(), HttpStatus.OK);
     }
 }

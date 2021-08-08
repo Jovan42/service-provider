@@ -1,4 +1,4 @@
-<h1>Menu Item</h1>
+<h1>Add Menu Item</h1>
 <mat-dialog-content fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
   <form fxFlex="100" fxLayout="row wrap" fxLayout.xs="column warp" fxLayoutAlign="space-evenly start">
     <mat-form-field fxFlex="45" appearance="fill">
@@ -8,13 +8,14 @@
     <mat-form-field fxFlex="45" appearance="fill">
       <mat-label>Price</mat-label>
       <input type="number" matInput [(ngModel)]="menuItem.price" name="price">
+      <mat-error></mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="90" appearance="fill">
       <mat-label>Description</mat-label>
       <textarea matInput [(ngModel)]="menuItem.description" name="description"></textarea>
     </mat-form-field>
     <div fxFlex="30" fxLayout="row" fxLayoutAlign="center center">
-      <mat-checkbox name="showSpecification" [(ngModel)]="menuItem.showSpecification">
+      <mat-checkbox name="showSpecificatiopon" [(ngModel)]="menuItem.showSpecification">
         Show Specification
       </mat-checkbox>
     </div>

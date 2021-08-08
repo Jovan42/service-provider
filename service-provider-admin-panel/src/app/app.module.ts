@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -17,7 +17,30 @@ import {OrganisationsComponent} from './organisations/organisations.component';
 import {ServiceProvidersService} from './services/service.providers.service';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ToastrModule} from 'ngx-toastr';
-import { NewMenuItemComponent } from './new-menu-item/new-menu-item.component';
+import {NewMenuItemComponent} from './new-menu-item/new-menu-item.component';
+import {NewMenuPartComponent} from './new-menu-part/new-menu-part.component';
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {OrdersService} from './services/orders.service';
+import { PendingOrdersComponent } from './pending-orders/pending-orders.component';
+import { DeliveryPeopleComponent } from './delivery-people/delivery-people.component';
+import {DeliveryService} from './services/delivery.service';
+
+function initializeKeycloak(keycloak: KeycloakService): any {
+  return () =>
+    keycloak.init({
+      config: {
+        url: 'http://localhost:8080/auth',
+        realm: 'springTest',
+        clientId: 'serviceProvider',
+      },
+      initOptions: {
+        onLoad: 'check-sso',
+        checkLoginIframe: false
+      },
+      enableBearerInterceptor: true,
+      bearerPrefix: 'Bearer',
+    });
+}
 
 const globalRippleConfig: RippleGlobalOptions = {
   disabled: true,
@@ -35,7 +58,10 @@ const globalRippleConfig: RippleGlobalOptions = {
     SpecificationViewComponent,
     AdditionalOptionsViewComponent,
     OrganisationsComponent,
-    NewMenuItemComponent
+    NewMenuItemComponent,
+    NewMenuPartComponent,
+    PendingOrdersComponent,
+    DeliveryPeopleComponent
   ],
   imports: [
     BrowserModule,
@@ -46,14 +72,21 @@ const globalRippleConfig: RippleGlobalOptions = {
     MatDialogModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
+    KeycloakAngularModule,
   ],
   providers: [
     {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useValue: globalRippleConfig},
     HttpClient,
-    ServiceProvidersService
-
+    ServiceProvidersService,
+    OrdersService,
+    DeliveryService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
   ],
   bootstrap: [AppComponent]
 })

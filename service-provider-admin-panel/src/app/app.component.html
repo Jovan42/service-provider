@@ -6,7 +6,7 @@
     <span class="menu-spacer"></span>
     <div>
       <button mat-raised-button color="accent"
-              matBadge="8" matBadgePosition="after" matBadgeColor="warn">
+              matBadge="{{pendingOrderSize}}" matBadgePosition="after" matBadgeColor="warn">
         Pending Orders
       </button>
     </div>
@@ -25,8 +25,13 @@
         My Profile
       </a>
       <a mat-list-item [routerLink]="'/organisations'">
-        <mat-icon color="primary" aria-hidden="false">insights</mat-icon>
-        Statistics
+        <mat-icon color="primary" aria-hidden="false">delivery_dining</mat-icon>
+        Delivery Man
+      </a>
+
+      <a mat-list-item (click)="logout()">
+        <mat-icon color="primary" aria-hidden="false">logout</mat-icon>
+        Log out
       </a>
     </mat-nav-list>
   </mat-sidenav>

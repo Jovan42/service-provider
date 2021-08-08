@@ -5,12 +5,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import service.serviceprovider.controllers.api.ServiceProviderRestApi;
 import service.serviceprovider.dto.ServiceProviderRequest;
 import service.serviceprovider.dto.ServiceProviderResponse;
 import service.serviceprovider.services.ServiceProviderService;
 import service.sharedlib.dto.CustomPage;
+
+import javax.annotation.security.RolesAllowed;
 
 @Controller
 public class ServiceProviderController implements ServiceProviderRestApi {
@@ -22,13 +23,13 @@ public class ServiceProviderController implements ServiceProviderRestApi {
     }
 
     @Override
-    @CrossOrigin(origins = "*")
     public ResponseEntity<CustomPage<ServiceProviderResponse>> search(Integer pageNumber,
                                                                       Integer pageSize) {
         return new ResponseEntity<>(serviceProviderService.search(PageRequest.of(pageNumber, pageSize)), HttpStatus.OK);
     }
 
     @Override
+    @RolesAllowed("test")
     public ResponseEntity<ServiceProviderResponse> getById(Long serviceProviderId) {
         return new ResponseEntity<>(serviceProviderService.getById(serviceProviderId), HttpStatus.OK);
     }

@@ -3,8 +3,12 @@ package service.accounting.service;
 import service.accounting.dto.AccountRequest;
 import service.accounting.dto.AccountResponse;
 
-public interface AccountService {
-    void validateOrder(Long userId, Long accountId, Double price, Long orderId);
+import java.util.List;
 
-    AccountResponse addAccount(Long userId, AccountRequest accountRequest);
+public interface AccountService {
+    void validateOrder(String userId, Long accountId, Double price, Long orderId);
+
+    AccountResponse addAccount(String userId, AccountRequest accountRequest);
+
+    List<AccountResponse> getAccountsForCurrentUser();
 }

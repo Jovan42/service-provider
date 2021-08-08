@@ -1,7 +1,9 @@
 package service.ordering.service;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import service.ordering.domain.BoughtItem;
 import service.ordering.domain.Order;
@@ -39,10 +41,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse create(OrderRequest orderRequest) {
+        KeycloakAuthenticationToken keycloakAuthenticationToken =
+                (KeycloakAuthenticationToken)
+                        SecurityContextHolder.getContext().getAuthentication();
         Order order = modelMapper.map(orderRequest, Order.class);
         order.getBoughtItems().forEach(boughtItem -> boughtItem.setOrder(order));
         order.setCreatedTime(LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING_SERVICE_PROVIDER_VALIDATION);
+        order.setUserId(keycloakAuthenticationToken.getName());
         Order savedOrder = orderRepository.save(order);
         OrderCreatedEvent orderCreatedEvent =
                 OrderCreatedEvent.builder()
@@ -96,6 +102,14 @@ public class OrderServiceImpl implements OrderService {
                             .userId(order.getUserId())
                             .accountId(order.getAccountId())
                             .price(calculatePrice(order.getBoughtItems()))
+                            .build());
+        } else {
+            kafkaTemplate.send(
+                    "orderTopic",
+                    "",
+                    PendingManualApprovalEvent.builder()
+                            .orderId(orderId)
+                            .serviceProviderId(order.getServiceProviderId())
                             .build());
         }
     }
@@ -219,7 +233,27 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrderById(Long orderId) {
-        return modelMapper.map(orderRepository.findById(orderId).orElseThrow(NotFoundException::new), OrderResponse.class);
+        return modelMapper.map(
+                orderRepository.findById(orderId).orElseThrow(NotFoundException::new),
+                OrderResponse.class);
+    }
+
+    @Override
+    public List<OrderResponse> getAllByStatus(OrderStatus status) {
+        return orderRepository
+                .getAllByStatus(status)
+                .stream()
+                .map(order -> modelMapper.map(order, OrderResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public OrderResponse abort(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(NotFoundException::new);
+        order.setStatus(OrderStatus.CANCELED);
+        order.setLastModified(LocalDateTime.now());
+        return modelMapper.map(orderRepository.save(order), OrderResponse.class);
+
     }
 
     private Double calculatePrice(List<BoughtItem> boughtItems) {

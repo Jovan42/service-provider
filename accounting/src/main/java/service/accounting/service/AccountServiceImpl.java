@@ -1,50 +1,44 @@
 package service.accounting.service;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import service.accounting.domain.Account;
 import service.accounting.domain.enums.AccountStatus;
 import service.accounting.dto.AccountRequest;
 import service.accounting.dto.AccountResponse;
 import service.accounting.repository.AccountRepository;
-import service.accounting.repository.UserRepository;
 import service.sharedlib.events.AccountValidationFinishedEvent;
 import service.sharedlib.events.BaseEvent;
 import service.sharedlib.events.OrderRequestDeclinedEvent;
-import service.sharedlib.exceptions.NotFoundException;
 import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
-    private final UserRepository userRepository;
     private final KafkaTemplate<String, BaseEvent> kafkaTemplate;
     private final ModelMapper modelMapper;
 
     public AccountServiceImpl(
             AccountRepository accountRepository,
-            UserRepository userRepository,
             KafkaTemplate<String, BaseEvent> kafkaTemplate,
             ModelMapper modelMapper) {
         this.accountRepository = accountRepository;
-        this.userRepository = userRepository;
         this.kafkaTemplate = kafkaTemplate;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public void validateOrder(Long userId, Long accountId, Double price, Long orderId) {
+    public void validateOrder(String userId, Long accountId, Double price, Long orderId) {
         Optional<Account> accountOptional = accountRepository.findById(accountId);
-
-        if (accountOptional.isEmpty() || !accountOptional.get().getUser().getId().equals(userId)) {
-            sentInvalidateEvent(orderId, OrderInvalidReason.USER_AND_ACCOUNT_DOES_NOT_MATCH);
-            return;
-        }
 
         if (accountOptional.get().getStatus() != AccountStatus.ACTIVE) {
             sentInvalidateEvent(orderId, OrderInvalidReason.ACCOUNT_IN_INCORRECT_STATUS);
@@ -60,14 +54,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountResponse addAccount(Long userId, AccountRequest accountRequest) {
+    public AccountResponse addAccount(String userId, AccountRequest accountRequest) {
         Account account = modelMapper.map(accountRequest, Account.class);
-        account.setUser(
-                userRepository.findById(userId).orElseThrow(NotFoundException::new));
+        account.setUserId(userId);
         return modelMapper.map(accountRepository.save(account), AccountResponse.class);
     }
 
-    private void approveOrder(Long userId, Account account, Double price, Long orderId) {
+    @Override
+    public List<AccountResponse> getAccountsForCurrentUser() {
+        KeycloakAuthenticationToken keycloakAuthenticationToken =
+                (KeycloakAuthenticationToken)
+                        SecurityContextHolder.getContext().getAuthentication();
+        return accountRepository.findAllByUserId(keycloakAuthenticationToken.getName()).stream()
+                .map(account -> modelMapper.map(account, AccountResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    private void approveOrder(String userId, Account account, Double price, Long orderId) {
         account.setBalance(account.getBalance() - price);
         accountRepository.save(account);
 

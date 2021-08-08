@@ -12,6 +12,8 @@ import service.serviceprovider.dto.OrganisationResponse;
 import service.serviceprovider.services.OrganisationService;
 import service.sharedlib.dto.CustomPage;
 
+import javax.annotation.security.RolesAllowed;
+
 @Controller
 public class OrganisationController implements OrganisationRestApi {
     private final OrganisationService organisationService;
@@ -33,6 +35,7 @@ public class OrganisationController implements OrganisationRestApi {
     }
 
     @Override
+    @RolesAllowed("manage-account")
     public ResponseEntity<OrganisationResponse> create(OrganisationRequest organisationRequest) {
         return new ResponseEntity<>(organisationService.create(organisationRequest), HttpStatus.CREATED);
     }

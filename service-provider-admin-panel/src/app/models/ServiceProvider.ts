@@ -5,7 +5,7 @@ export interface ServiceProvider {
   description: string;
   address: string;
   manualApprovalRequired: boolean;
-  menuParts?: MenuParts[];
+  menuParts?: MenuPart[];
 }
 
 export interface Specification {
@@ -40,11 +40,11 @@ export interface ServiceProviderListResponse {
   totalPages: number;
 }
 
-export interface MenuParts {
-  id: number;
-  name: string;
-  description: string;
-  menuItems: MenuItem[];
+export interface MenuPart {
+  id?: number;
+  name?: string;
+  description?: string;
+  menuItems?: MenuItem[];
 }
 
 export interface MenuItem {
@@ -52,6 +52,7 @@ export interface MenuItem {
   name?: string;
   description?: string;
   price?: number;
+  menuItemId?: number;
   specifications?: Specification[];
   additionalRequirements?: Specification[];
   showSpecification?: boolean;

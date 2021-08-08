@@ -8,7 +8,7 @@ CREATE TABLE orders (
     `test` int,
     `status` int,
     `cancel_reason` varchar(255),
-    `user_id` bigint,
+    `user_id` varchar(255),
     `account_id` bigint,
     `preparation_time_in_minutes` bigint default 0,
     `delivered_time` datetime

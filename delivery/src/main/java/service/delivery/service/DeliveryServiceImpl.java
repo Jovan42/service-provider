@@ -11,6 +11,7 @@ import service.delivery.dto.DeliveryResponse;
 import service.delivery.repository.DeliveryManRepository;
 import service.delivery.repository.DeliveryRepository;
 import service.sharedlib.events.BaseEvent;
+import service.sharedlib.events.OrderAssignedToDeliveryManEvent;
 import service.sharedlib.events.OrderDeliveredEvent;
 import service.sharedlib.events.OrderPickedUpEvent;
 import service.sharedlib.exceptions.BadRequestException;
@@ -47,6 +48,14 @@ public class DeliveryServiceImpl implements DeliveryService {
                         deliveryMan -> {
                             delivery.setDeliveryMan(deliveryMan);
                             delivery.setStatus(DeliveryStatus.PENDING_PREPARATION);
+                            kafkaTemplate.send(
+                                    "orderTopic",
+                                    "",
+                                    OrderAssignedToDeliveryManEvent.builder()
+                                            .orderId(delivery.getOrderId())
+                                            .preparationTimeInMinutes(delivery.getPreparationTimeInMinutes())
+                                            .deliveryManId(deliveryMan.getId())
+                                    .build());
                         },
                         () -> delivery.setStatus(DeliveryStatus.PENDING_DELIVERY_MAN));
         delivery.setOrderId(orderId);
@@ -135,7 +144,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Scheduled(fixedRate = 1000)
     private void checkPendingDeliveries() {
         deliveryRepository
-                .findAllByStatusAndDeliveryManIsNull(DeliveryStatus.PENDING_DELIVERY_MAN)
+                .findAllByStatusOrStatusAndDeliveryManIsNull(DeliveryStatus.PENDING_DELIVERY_MAN, DeliveryStatus.READY_TO_PICK_UP)
                 .forEach(
                         delivery ->
                                 findAvailableDeliveryMan(delivery.getServiceProviderId())
@@ -146,6 +155,14 @@ public class DeliveryServiceImpl implements DeliveryService {
                                                             DeliveryStatus.PENDING_PREPARATION);
                                                     delivery.setLastModified(LocalDateTime.now());
                                                     deliveryRepository.save(delivery);
+                                                    kafkaTemplate.send(
+                                                            "orderTopic",
+                                                            "",
+                                                            OrderAssignedToDeliveryManEvent.builder()
+                                                                    .orderId(delivery.getOrderId())
+                                                                    .preparationTimeInMinutes(delivery.getPreparationTimeInMinutes())
+                                                                    .deliveryManId(deliveryMan.getId())
+                                                                    .build());
                                                 }));
     }
 

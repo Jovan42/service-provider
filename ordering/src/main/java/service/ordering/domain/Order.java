@@ -17,7 +17,7 @@ public class Order extends BaseEntity {
     private Long serviceProviderId;
     private OrderStatus status;
     private String cancelReason;
-    private Long userId;
+    private String userId;
     private Long accountId;
     private Long preparationTimeInMinutes;
     private LocalDateTime deliveredTime;

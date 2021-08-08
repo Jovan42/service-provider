@@ -9,6 +9,8 @@ import service.serviceprovider.dto.ServiceProviderRequest;
 import service.serviceprovider.dto.ServiceProviderResponse;
 import service.sharedlib.dto.CustomPage;
 
+import java.security.Principal;
+
 @Api
 @RequestMapping()
 public interface ServiceProviderRestApi {

@@ -1,9 +1,12 @@
 package service.serviceprovider.services;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.keycloak.representations.AccessToken;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import service.serviceprovider.domain.MenuItem;
 import service.serviceprovider.domain.ServiceProvider;
@@ -23,6 +26,7 @@ import service.sharedlib.exceptions.NotFoundException;
 import service.sharedlib.exceptions.enums.OrderInvalidReason;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +90,8 @@ public class ServiceProviderServiceImpl implements ServiceProviderService {
                 .findById(serviceProviderId)
                 .orElseThrow(NotFoundException::new);
         serviceProvider.setMenuParts(menuPartRepository.findAllByServiceProvider_Id(serviceProviderId));
+        KeycloakAuthenticationToken keycloakAuthenticationToken = (KeycloakAuthenticationToken)SecurityContextHolder.getContext().getAuthentication();
+        AccessToken accessToken = keycloakAuthenticationToken.getAccount().getKeycloakSecurityContext().getToken();
         return modelMapper.map(
                 serviceProvider,
                 ServiceProviderResponse.class);

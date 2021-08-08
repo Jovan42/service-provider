@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class ServiceProviderValidationFinishedEvent extends BaseEvent {
     private Long orderId;
-    private Long userId;
+    private String userId;
     private Long accountId;
     private Double price;
 }

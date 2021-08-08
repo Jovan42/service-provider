@@ -13,7 +13,7 @@ import {UtilFunctions} from '../utilFunctions';
 export class SpecificationViewComponent implements OnInit {
   private data;
   public specifications: Specification[] = [];
-
+D
   constructor(private dialogRef: MatDialogRef<SpecificationViewComponent>,
               @Inject(MAT_DIALOG_DATA) data,
               private serviceProvidersService: ServiceProvidersService,

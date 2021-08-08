@@ -13,6 +13,6 @@ public class OrderResponse {
     private Long serviceProviderId;
     List<BoughtItemResponse> boughtItems;
     private OrderStatus status;
-    private Integer userId;
+    private String userId;
     private Integer accountId;
 }
