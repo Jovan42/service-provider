@@ -24,6 +24,7 @@ import {OrdersService} from './services/orders.service';
 import { PendingOrdersComponent } from './pending-orders/pending-orders.component';
 import { DeliveryPeopleComponent } from './delivery-people/delivery-people.component';
 import {DeliveryService} from './services/delivery.service';
+import { DeliveriesComponent } from './deliveries/deliveries.component';
 
 function initializeKeycloak(keycloak: KeycloakService): any {
   return () =>
@@ -61,7 +62,8 @@ const globalRippleConfig: RippleGlobalOptions = {
     NewMenuItemComponent,
     NewMenuPartComponent,
     PendingOrdersComponent,
-    DeliveryPeopleComponent
+    DeliveryPeopleComponent,
+    DeliveriesComponent
   ],
   imports: [
     BrowserModule,

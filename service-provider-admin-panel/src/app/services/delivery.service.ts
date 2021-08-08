@@ -12,4 +12,17 @@ export class DeliveryService {
   getAllDeliveryMan(): Observable<any> {
     return this.resourceService.get(`${this.baseUrl}/deliveryPeople`);
   }
+
+  getAllDeliveriesByStatus(status): Observable<any> {
+    return this.resourceService.get(`${this.baseUrl}/deliveries?status=${status}`);
+  }
+
+  pickUp(id): Observable<any> {
+    return this.resourceService.update(`${this.baseUrl}/deliveries/${id}/pickUp`, {});
+  }
+
+  deliver(id): Observable<any> {
+    return this.resourceService.update(`${this.baseUrl}/deliveries/${id}/delivery`, {});
+  }
+
 }

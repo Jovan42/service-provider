@@ -20,6 +20,7 @@ import service.sharedlib.exceptions.NotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
@@ -115,6 +116,12 @@ public class DeliveryServiceImpl implements DeliveryService {
                         .build());
 
         return deliveryMapper.map(savedDelivery);
+    }
+
+    @Override
+    public List<DeliveryResponse> getAllByStatus(DeliveryStatus status) {
+        return deliveryRepository.findAllByStatus(status)
+                .stream().map(deliveryMapper::map).collect(Collectors.toList());
     }
 
     private void checkPreconditionsFroPickUp(Delivery delivery) {
