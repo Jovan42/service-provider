@@ -13,4 +13,6 @@ public class AccountRequest {
     private String accountNumber;
     private AccountStatus status = AccountStatus.ACTIVE;
     private Double balance = 0d;
+
+
 }

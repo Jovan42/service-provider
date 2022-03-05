@@ -14,6 +14,8 @@ public class MessageBody {
     private String eventName;
     private Long orderId;
     private String additionalInfo;
+    private String emailAddress;
+    private String phoneNumber;
 
     public static MessageBody of(OrderCreatedEvent orderCreatedEvent) {
         return MessageBody.builder()

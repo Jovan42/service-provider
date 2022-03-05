@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
         } else {
           _keycloakService.login()
             .then(() => {
-              console.log('ssdfsdfs');
             })
             .catch(error => {
               console.log('error1', error);

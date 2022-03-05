@@ -3,7 +3,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export  class UtilFunctions {
   public static successSnackbar(snackBar: MatSnackBar, message): void {
     snackBar.open(message, 'Close', {
-      duration: 400000,
+      duration: 2000,
       panelClass: ['mat-toolbar', 'success-snackbar']
     });
   }

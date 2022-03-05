@@ -148,7 +148,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     // Checking if there is any pending delivery and assign available deliveryman to them.
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 300000)
     private void checkPendingDeliveries() {
         deliveryRepository
                 .findAllByStatusOrStatusAndDeliveryManIsNull(DeliveryStatus.PENDING_DELIVERY_MAN, DeliveryStatus.READY_TO_PICK_UP)

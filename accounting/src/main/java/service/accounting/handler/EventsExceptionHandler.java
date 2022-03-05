@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import service.sharedlib.dto.ErrorMessage;
 import service.sharedlib.exceptions.BadRequestException;
 
-@EnableWebMvc
 @ControllerAdvice
 public class EventsExceptionHandler {
 

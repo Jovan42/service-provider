@@ -15,6 +15,7 @@ import java.util.List;
 public interface UserRestApi {
     @PostMapping("users/{userId}/account")
     @ApiOperation(value = "Add account to User")
+    @RolesAllowed("manage-account")
     ResponseEntity<AccountResponse> addAccount(
             @PathVariable String userId, @Validated @RequestBody AccountRequest accountRequest);
 

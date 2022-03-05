@@ -9,7 +9,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import service.notification.dto.MessageBody;
-import service.notification.dto.OrderResponse;
 
 import java.util.List;
 
@@ -50,11 +49,8 @@ public class NotificationMessageServiceImpl implements NotificationMessageServic
 
     @Override
     public void sendMail(MessageBody messageBody) {
-        OrderResponse orderInfo =
-                restTemplate.getForObject("http://localhost:8090/orders/" + messageBody.getOrderId(), OrderResponse.class);
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo("jovan0042@gmail.com");
-        //        message.setTo(employee.getEmail());
+        simpleMailMessage.setTo(messageBody.getEmailAddress());
         simpleMailMessage.setSubject(messageBody.getEventName());
         simpleMailMessage.setText(messageBody.getMessage());
         emailSender.send(simpleMailMessage);
@@ -63,11 +59,10 @@ public class NotificationMessageServiceImpl implements NotificationMessageServic
     @Override
     public void sendSMS(MessageBody messageBody) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        Message message =
-                Message.creator(
-                                new PhoneNumber("+381692010092"),
-                                new PhoneNumber(FROM_NUMBER),
-                                messageBody.getMessage())
-                        .create();
+        Message.creator(
+                        new PhoneNumber(messageBody.getPhoneNumber()),
+                        new PhoneNumber(FROM_NUMBER),
+                        messageBody.getMessage())
+                .create();
     }
 }
